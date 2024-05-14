@@ -17,11 +17,6 @@
   nix = {
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -143,6 +138,13 @@
       enable = true;
       driSupport = true;
     };
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 7d --keep 5";
+    flake = "/home/caleb/git/nix";
   };
 
   # DO NOT MODIFY
