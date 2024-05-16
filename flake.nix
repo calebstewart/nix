@@ -14,9 +14,12 @@
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
+
+    # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
+    nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }@inputs:
+  outputs = {home-manager, ... }@inputs:
   let
     user = {
       name = "caleb";
@@ -27,9 +30,6 @@
     # Function to uniformly define a system based on it's hostname and
     # platform name.
     makeSystem = {hostname, system, user}:
-    let
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
-    in 
       inputs.nixpkgs.lib.nixosSystem {
         inherit system;
 
@@ -54,6 +54,7 @@
         specialArgs = {
           inherit inputs;
           inherit user;
+          inherit system;
         };
       };
   in {

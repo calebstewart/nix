@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, user, ... }:
+{ config, lib, pkgs, user, inputs, system, ... }:
 
 {
   # Allow installation of non-free packages
@@ -146,6 +146,10 @@
     clean.enable = true;
     clean.extraArgs = "--keep-since 7d --keep 5";
     flake = "/home/caleb/git/nix";
+
+    # FIXME: Using this fork of nh which supports doas until the PR is merged:
+    #        https://github.com/viperML/nh/pull/92
+    package = inputs.nh-extra-privesc.packages.${system}.default;
   };
 
   # DO NOT MODIFY
