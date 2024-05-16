@@ -98,7 +98,7 @@
   # Setup our users
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups = ["wheel" "input"];
+    extraGroups = ["wheel" "input" "networkmanager"];
     createHome = true;
     shell = pkgs.zsh;
   };
