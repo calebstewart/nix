@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, username, ... }:
+{ config, lib, pkgs, user, ... }:
 
 {
   # Allow installation of non-free packages
@@ -96,7 +96,8 @@
   };
 
   # Setup our users
-  users.users.${username} = {
+  users.users.${user.name} = {
+    description = user.fullName;
     isNormalUser = true;
     extraGroups = ["wheel" "input" "networkmanager"];
     createHome = true;
@@ -121,7 +122,7 @@
     doas = {
       enable = true;
       extraRules = [{
-        users = [username];
+        users = [user.name];
         keepEnv = true;
         persist = true;
       }];

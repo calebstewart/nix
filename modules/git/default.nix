@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{lib, config, user, ...}:
 let
   cfg = config.modules.git;
 in {
@@ -8,8 +8,8 @@ in {
     programs.git = {
       enable = true;
 
-      userName = "Caleb Stewart";
-      userEmail = "caleb.stewart94@gmail.com";
+      userName = user.fullName;
+      userEmail = user.email;
 
       extraConfig = {
         init.defaultBranch = "main";

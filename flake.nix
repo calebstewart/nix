@@ -18,9 +18,15 @@
 
   outputs = { nixpkgs, home-manager, nixvim, ... }@inputs:
   let
+    user = {
+      name = "caleb";
+      fullName = "Caleb Stewart";
+      email = "caleb.stewart94@gmail.com";
+    };
+
     # Function to uniformly define a system based on it's hostname and
     # platform name.
-    makeSystem = {hostname, system, username}:
+    makeSystem = {hostname, system, user}:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in 
@@ -38,29 +44,29 @@
               extraSpecialArgs = {
                 inherit inputs;
                 inherit system;
-                inherit username;
+                inherit user;
               };
-              users.${username} = (./. + "/hosts/${hostname}/user.nix");
+              users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
             };
           }
         ];
 
         specialArgs = {
           inherit inputs;
-          inherit username;
+          inherit user;
         };
       };
   in {
     nixosConfigurations = {
       framework16 = makeSystem {
+        inherit user;
         hostname = "framework16";
         system = "x86_64-linux";
-        username = "caleb";
       };
       ryzen = makeSystem {
+        inherit user;
         hostname = "ryzen";
         system = "x86_64-linux";
-        username = "caleb";
       };
     };
   };
