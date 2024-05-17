@@ -60,5 +60,7 @@
 
   home.packages = with pkgs; [
     neofetch
+    pwvucontrol
+    pw-volume
   ];
 }
