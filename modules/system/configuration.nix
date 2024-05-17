@@ -134,6 +134,10 @@
       }];
     };
 
+    pam = {
+      services.swaylock = {};
+    };
+
     protectKernelImage = true;
   };
 

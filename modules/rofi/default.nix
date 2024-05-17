@@ -11,14 +11,14 @@ in {
 
     # Setup rofi colors
     # TODO: make these use the current colorscheme
-    home.file.".config/rofi/colors.rasi".text = ''
+    home.file.".config/rofi/colors.rasi".text = with config.colorScheme.palette; ''
     * {
-      background:     #282828FF;
-      background-alt: #353535FF;
-      foreground:     #EBDBB2FF;
-      selected:       #83A598FF;
-      active:         #B8BB26FF;
-      urgent:         #FB4934FF;
+      background: #${base00};
+      background-alt: #${base01};
+      foreground: #${base05};
+      selected: #${base06};
+      active: #${base03};
+      urgent: #${base08};
     }
     '';
 

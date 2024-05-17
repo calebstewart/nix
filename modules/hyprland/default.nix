@@ -22,6 +22,7 @@ in {
       slurp
       grim
       grimblast
+      wlogout
     ];
 
     wayland.windowManager.hyprland = {
@@ -88,6 +89,7 @@ in {
             "borderangle, 1, 8, default"
             "fade, 1, 7, default"
             "workspaces, 1, 6, default"
+            "layers, 1, 7, default, slide"
           ];
         };
 
@@ -148,6 +150,44 @@ in {
         ];
       };
 
+    };
+
+    programs.swaylock = {
+      enable = true;
+      package = pkgs.swaylock-effects;
+
+      settings = with config.colorScheme.palette; {
+        screenshots = true;
+        fade-in = 1;
+        effect-blur = "6x2";
+
+        inside-color = "${base00}";
+        inside-clear-color = "${base0D}";
+        inside-caps-lock-color = "${base09}";
+        inside-ver-color = "${base0A}";
+        inside-wrong-color = "${base08}";
+        
+        line-color = "${base01}";
+        line-clear-color = "${base01}";
+        line-caps-lock-color = "${base01}";
+        line-ver-color = "${base01}";
+        line-wrong-color = "${base01}";
+
+        ring-color = "${base02}";
+        ring-clear-color = "${base02}";
+        ring-caps-lock-color = "${base02}";
+        ring-ver-color = "${base02}";
+        ring-wrong-color = "${base02}";
+
+        text-color = "${base05}";
+        text-clear-color = "${base06}";
+        text-caps-lock-color = "${base05}";
+        text-ver-color = "${base04}";
+        text-wrong-color = "${base06}";
+
+        key-hl-color = "${base0F}";
+        bs-hl-color = "${base0E}";
+      };
     };
 
     home.file.".config/hypr/wallpaper".source = ./spaceman.jpg;
