@@ -23,10 +23,12 @@ in {
       grim
       grimblast
       wlogout
+      swayidle
     ];
 
     wayland.windowManager.hyprland = {
       enable = true;
+      systemd.enable = true;
 
       settings = {
         monitor = ",preferred,auto,1";
@@ -113,13 +115,14 @@ in {
         bind = [
           "${modifier}, Return, exec, ${terminal}"
           "${modifier}, Q, killactive,"
-          "${modifier} SHIFT, E, exit,"
+          "${modifier} SHIFT, E, exec, ${pkgs.wlogout}/bin/wlogout"
           "${modifier} SHIFT, Space, togglefloating,"
           "${modifier}, D, exec, ${menu_command}"
           "${modifier}, P, pseudo,"
           "${modifier}, V, togglesplit,"
           "${modifier} SHIFT, R, exec, ${screenshot_command}"
           "${modifier} SHIFT, P, exec, ${printscreen_command}"
+          "${modifier}, Backspace, exec, ${pkgs.swaylock-effects}/bin/swaylock -f"
           
           "${modifier}, h, movefocus, l"
           "${modifier}, l, movefocus, r"
@@ -150,6 +153,20 @@ in {
         ];
       };
 
+    };
+
+    services.swayidle = {
+      enable = true;
+
+      events = [
+        { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
+        { event = "after-resume"; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on"; }
+      ];
+
+      timeouts = [
+        { timeout = 300; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
+        { timeout = 315; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off"; }
+      ];
     };
 
     programs.swaylock = {
@@ -188,6 +205,53 @@ in {
         key-hl-color = "${base0F}";
         bs-hl-color = "${base0E}";
       };
+    };
+
+    programs.wlogout = {
+      enable = true;
+
+      layout = [
+        {
+          label = "lock";
+          action = "${pkgs.swaylock-effects}/bin/swaylock -f";
+          text = "Lock Screen";
+          keybind = "l";
+        }
+        {
+          label = "logout";
+          action = "pkill Hyprland";
+          text = "Logout";
+          keybind = "e";
+        }
+        {
+          label = "shutdown";
+          action = "systemctl poweroff";
+          text = "Shutdown";
+          keybind = "s";
+        }
+      ];
+
+      # style = with config.colorScheme.palette; ''
+      # window {
+      #   background-color: #${base00};
+      # }
+
+      # button {
+      #   color: #${base05};
+      #   border-color: #${base01};
+      #   text-decoration-color: #${base05};
+      #   background-color: #${base00};
+      #   border: 1px solid;
+      #   background-repeat: no-repeat;
+      #   background-position: center;
+      #   background-size: 25%;
+      # }
+
+      # button:focus, button:active, button:hover {
+      #   background-color: #${base02};
+      #   outline-style: none;
+      # }
+      # '';
     };
 
     home.file.".config/hypr/wallpaper".source = ./spaceman.jpg;
