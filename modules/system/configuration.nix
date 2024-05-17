@@ -11,6 +11,7 @@
   # Remove unecessary packages
   environment.defaultPackages = with pkgs; [
     hyprland
+    looking-glass-client
   ];
 
   # Setup global nixos settings (mainly, enable flakes)
@@ -22,6 +23,10 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/looking-glass 0660 caleb qemu-libvirtd -"
+  ];
 
   # Configure networking with Network Manager
   networking.networkmanager.enable = true;
@@ -83,6 +88,7 @@
   programs.zsh.enable = true;
   programs.dconf.enable = true;
   programs.hyprland.enable = true;
+  programs.virt-manager.enable = true;
 
   # Enable sound with pipewire support
   sound.enable = true;
@@ -99,7 +105,7 @@
   users.users.${user.name} = {
     description = user.fullName;
     isNormalUser = true;
-    extraGroups = ["wheel" "input" "networkmanager"];
+    extraGroups = ["wheel" "input" "networkmanager" "libvirtd"];
     createHome = true;
     shell = pkgs.zsh;
   };
@@ -150,6 +156,22 @@
     # FIXME: Using this fork of nh which supports doas until the PR is merged:
     #        https://github.com/viperML/nh/pull/92
     package = inputs.nh-extra-privesc.packages.${system}.default;
+  };
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+    };
   };
 
   # DO NOT MODIFY
