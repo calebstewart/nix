@@ -20,6 +20,7 @@
     neovim.enable = true;
     zsh.enable = true;
     git.enable = true;
+    golang.enable = true;
     # gpg.enable = true;
     # direnv.enable = true;
 

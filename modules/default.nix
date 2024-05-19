@@ -23,6 +23,7 @@
     ./neovim
     ./zsh
     ./git
+    ./golang
     # ./gpg
     # ./direnv
 
@@ -30,6 +31,8 @@
     # ./xdg
     # ./packages
   ];
+
+  programs.jq.enable = true;
 
   colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
@@ -62,6 +65,5 @@
     neofetch
     pwvucontrol
     pw-volume
-    go
   ];
 }

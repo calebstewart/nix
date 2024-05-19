@@ -10,7 +10,7 @@ in {
 
       profiles.${user.name} = {
         isDefault = true;
-        containersForce = false;
+        containersForce = true;
 
         settings = {
           "browser.theme.content-theme" = 2;
@@ -28,6 +28,7 @@ in {
           default = "Google";
           order = ["Google" "Nix Packages"];
           privateDefault = "Google";
+          force = true;
 
           engines = {
             "Nix Packages" = {
