@@ -178,6 +178,30 @@
     };
   };
 
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    dockerSocket.enable = true;
+
+    extraPackages = with pkgs; [
+      podman-compose
+    ];
+
+    autoPrune = {
+      enable = true;
+      dates = "weekly";
+    };
+  };
+
+  virtualisation.containers = {
+    enable = true;
+
+    containersConf.cniPlugins = with pkgs; [
+      cni-plugins
+      dnsname-cni
+    ];
+  };
+
   # DO NOT MODIFY
   system.stateVersion = "23.11";
 }

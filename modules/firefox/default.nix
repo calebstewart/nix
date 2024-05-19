@@ -1,13 +1,69 @@
-{inputs, lib, config, pkgs, ...}:
-with lib;
+{inputs, lib, config, pkgs, user, ...}:
 let
   cfg = config.modules.firefox;
 in {
-  options.modules.firefox = {enable = mkEnableOption "firefox"; };
+  options.modules.firefox = {enable = lib.mkEnableOption "firefox"; };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.firefox = {
       enable = true;
+
+      profiles.${user.name} = {
+        isDefault = true;
+        containersForce = false;
+
+        settings = {
+          "browser.theme.content-theme" = 2;
+          "browser.startup.homepage" = "https://www.google.com";
+          "ui.systemUsesDarkTheme" = 1;
+        };
+
+        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          lastpass-password-manager
+          ublock-origin
+          cookie-quick-manager
+        ];
+
+        search = {
+          default = "Google";
+          order = ["Google" "Nix Packages"];
+          privateDefault = "Google";
+
+          engines = {
+            "Nix Packages" = {
+              urls = [{
+                template = "https://search.nixos.org/packages";
+                params = [
+                  { name = "type"; value = "packages"; }
+                  { name = "query"; value = "{searchTerms}"; }
+                ];
+              }];
+
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@np" ];
+            };
+
+            "Bing".metaData.hidden = true;
+
+            "Google".metaData.alias = "@g";
+          };
+        };
+
+        containers = {
+          Personal = {
+            color = "blue";
+            icon = "fingerprint";
+            id = 1;
+          };
+
+          Work = {
+            color = "orange";
+            icon = "briefcase";
+            id = 2;
+          };
+        };
+      };
     };
   };
+
 }

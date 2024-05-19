@@ -24,6 +24,7 @@ in {
       grimblast
       wlogout
       swayidle
+      brightnessctl
     ];
 
     wayland.windowManager.hyprland = {
@@ -102,6 +103,7 @@ in {
 
         windowrulev2 = [
           "suppressevent maximize, class:.*"
+          "idleinhibit fullscreen, class:.*"
         ];
 
         bindt = [
@@ -160,12 +162,12 @@ in {
 
       events = [
         { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-        { event = "after-resume"; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on"; }
+        # { event = "after-resume"; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on"; }
       ];
 
       timeouts = [
         { timeout = 300; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-        { timeout = 315; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off"; }
+        # { timeout = 315; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off"; }
       ];
     };
 

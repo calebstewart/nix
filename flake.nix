@@ -11,15 +11,15 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors = {
-      url = "github:misterio77/nix-colors";
-    };
+
+    nix-colors.url = "github:misterio77/nix-colors";
+    nur.url = "github:nix-community/NUR";
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
     nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
   };
 
-  outputs = {home-manager, ... }@inputs:
+  outputs = {home-manager, nur, ... }@inputs:
   let
     user = {
       name = "caleb";
@@ -34,7 +34,10 @@
         inherit system;
 
         modules = [
-          { networking.hostName = hostname; }
+          {
+            networking.hostName = hostname;
+            nixpkgs.overlays = [nur.overlay];
+          }
           ./modules/system/configuration.nix
           (./. + "/hosts/${hostname}/hardware-configuration.nix")
           home-manager.nixosModules.home-manager {

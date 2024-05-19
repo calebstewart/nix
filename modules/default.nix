@@ -31,8 +31,8 @@
     # ./packages
   ];
 
-  # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
+  colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
   gtk = {
     enable = true;
@@ -62,5 +62,6 @@
     neofetch
     pwvucontrol
     pw-volume
+    go
   ];
 }
