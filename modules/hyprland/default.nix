@@ -125,6 +125,7 @@ in {
           "${modifier} SHIFT, R, exec, ${screenshot_command}"
           "${modifier} SHIFT, P, exec, ${printscreen_command}"
           "${modifier}, Backspace, exec, ${pkgs.swaylock-effects}/bin/swaylock -f"
+          "${modifier}, U, exec, uuidgen | wl-copy"
           
           "${modifier}, h, movefocus, l"
           "${modifier}, l, movefocus, r"
