@@ -69,5 +69,6 @@
     slack
     vesktop
     zoom-us
+    remmina
   ];
 }

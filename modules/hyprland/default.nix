@@ -1,4 +1,4 @@
-{inputs, pkgs, lib, config, ...}:
+{inputs, pkgs, lib, config, user, ...}:
 let
   cfg = config.modules.hyprland;
 
@@ -16,14 +16,10 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       swaybg
-      wlsunset
       wl-clipboard
       hyprland
       slurp
-      grim
       grimblast
-      wlogout
-      swayidle
       brightnessctl
     ];
 
@@ -40,14 +36,6 @@ in {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
         };
-
-        exec-once = [
-          "swaybg -i $HOME/.config/hypr/wallpaper"
-          "wlsunset -l 23 -L 46"
-          "waybar"
-          "dunst"
-        ];
-
 
         input = {
           kb_layout = "us";
@@ -99,19 +87,12 @@ in {
         dwindle = {
           pseudotile = true;
           preserve_split = true;
+          no_gaps_when_only = 1;
         };
 
         windowrulev2 = [
           "suppressevent maximize, class:.*"
           "idleinhibit fullscreen, class:.*"
-        ];
-
-        bindt = [
-          ", Super_L, exec, pkill -SIGUSR1 waybar"
-        ];
-
-        bindrt = [
-          "SUPER, Super_L, exec, pkill -SIGUSR1 waybar"
         ];
 
         bind = [
@@ -170,6 +151,29 @@ in {
         { timeout = 300; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
         # { timeout = 315; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off"; }
       ];
+    };
+
+    services.wlsunset = {
+      enable = true;
+      sunrise = "07:00";
+      sunset = "17:00";
+      temperature = {
+        day = 6500;
+        night = 4000;
+      };
+    };
+
+    services.hyprpaper = {
+      enable = true;
+
+      settings = {
+        ipc = "off";
+        splash = false;
+        splash_offset = 2.0;
+
+        preload = [ "/home/${user.name}/.config/hypr/wallpaper.jpg" ];
+        wallpaper = [ ",/home/${user.name}/.config/hypr/wallpaper.jpg" ];
+      };
     };
 
     programs.swaylock = {
@@ -257,6 +261,6 @@ in {
       # '';
     };
 
-    home.file.".config/hypr/wallpaper".source = ./spaceman.jpg;
+    home.file.".config/hypr/wallpaper.jpg".source = ./spaceman.jpg;
   };
 }

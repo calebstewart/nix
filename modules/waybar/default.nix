@@ -4,19 +4,20 @@ let
 in {
   options.modules.waybar = { enable = lib.mkEnableOption "waybar"; };
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      waybar
-    ];
-
     programs.waybar = {
       enable = true;
+
+      systemd = {
+        enable = true;
+        target = "hyprland-session.target";
+      };
 
       settings = [{
         layer = "top";
         margin-left = 0;
         margin-right = 0;
         spacing = 0;
-        start_hidden = true;
+        start_hidden = false;
 
         clock.format = "{:%H:%M}";
         clock.format-alt = "{:%Y-%m-%d}";

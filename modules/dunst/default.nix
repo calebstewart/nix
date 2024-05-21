@@ -1,15 +1,10 @@
 {pkgs, lib, config, ...}:
-with lib;
 let
   cfg = config.modules.dunst;
 in {
-  options.modules.dunst = { enable = mkEnableOption "dunst"; };
+  options.modules.dunst = { enable = lib.mkEnableOption "dunst"; };
 
-  config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      dunst
-    ];
-
+  config = lib.mkIf cfg.enable {
     services.dunst = {
       enable = true;
       settings = {
