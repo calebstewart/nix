@@ -7,6 +7,7 @@
     # Setup home-manager modules
     inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModules.default
+    inputs.hyprland.homeManagerModules.default
 
     # Graphical User Interface (GUI)
     ./firefox

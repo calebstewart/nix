@@ -10,7 +10,6 @@
 
   # Remove unecessary packages
   environment.defaultPackages = with pkgs; [
-    hyprland
     looking-glass-client
   ];
 
@@ -69,12 +68,12 @@
     configPackages = with pkgs; [
       xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
     ];
     extraPortals = with pkgs; [
       xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
     ];
   };
 
@@ -87,8 +86,12 @@
   # Use zsh as the default shell
   programs.zsh.enable = true;
   programs.dconf.enable = true;
-  programs.hyprland.enable = true;
   programs.virt-manager.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
 
   # Enable sound with pipewire support
   sound.enable = true;

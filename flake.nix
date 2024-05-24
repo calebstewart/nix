@@ -17,6 +17,12 @@
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
     nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
+
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = {home-manager, nur, ... }@inputs:
@@ -38,6 +44,7 @@
             networking.hostName = hostname;
             nixpkgs.overlays = [nur.overlay];
           }
+          inputs.hyprland.nixosModules.default
           ./modules/system/configuration.nix
           (./. + "/hosts/${hostname}/hardware-configuration.nix")
           home-manager.nixosModules.home-manager {
