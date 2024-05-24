@@ -537,7 +537,8 @@
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
-        "nur": "nur"
+        "nur": "nur",
+        "vfio-hooks": "vfio-hooks"
       }
     },
     "systems": {
@@ -588,6 +589,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "vfio-hooks": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658208616,
+        "narHash": "sha256-fz2VT9AqnO22S5V9sDxmGotZ1mZNeqhlmyJoG3pdtxE=",
+        "owner": "PassthroughPOST",
+        "repo": "VFIO-Tools",
+        "rev": "4f6d505f7ef032b552c9a544f95e8586d954fe26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "PassthroughPOST",
+        "repo": "VFIO-Tools",
         "type": "github"
       }
     },

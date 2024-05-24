@@ -10,7 +10,8 @@
     alacritty.enable = true;
     eww.enable = false;
     waybar.enable = true;
-    dunst.enable = true;
+    dunst.enable = false;
+    swaync.enable = true;
     wofi.enable = false;
     rofi.enable = true;
     obs.enable = true;

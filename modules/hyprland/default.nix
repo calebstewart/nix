@@ -42,6 +42,8 @@ in {
       ];
 
       settings = {
+        "$mod" = modifier;
+
         monitor = [",preferred,auto,1"] ++ cfg.monitors;
         master.new_is_master = true;
         gestures.workspace_swipe = true;
@@ -149,9 +151,15 @@ in {
           "${modifier} SHIFT, 9, split:movetoworkspace, 9"
           "${modifier} SHIFT, 0, split:movetoworkspace, 10"
         ];
+
+        source = "~/.config/hypr/config.d/*.conf";
       };
 
     };
+
+    # Write an empty config so that the source directive doesn't die when no other modules
+    # write configurations here.
+    home.file.".config/hypr/config.d/00-empty.conf".text = "";
 
     services.swayidle = {
       enable = true;
@@ -197,7 +205,8 @@ in {
       settings = with config.colorScheme.palette; {
         screenshots = true;
         fade-in = 1;
-        effect-blur = "6x2";
+        effect-pixelate = 20;
+        effect-scale = 0.5;
 
         inside-color = "${base00}";
         inside-clear-color = "${base0D}";

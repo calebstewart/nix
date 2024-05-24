@@ -15,6 +15,7 @@
     ./eww
     ./waybar
     ./dunst
+    ./swaync
     ./hyprland
     ./wofi
     ./rofi
@@ -78,5 +79,6 @@
     vesktop
     zoom-us
     remmina
+    spotify
   ];
 }

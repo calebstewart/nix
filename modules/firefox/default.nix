@@ -22,6 +22,7 @@ in {
           lastpass-password-manager
           ublock-origin
           cookie-quick-manager
+          multi-account-containers
         ];
 
         search = {

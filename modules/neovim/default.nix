@@ -56,6 +56,7 @@ in {
       # Enable common plugins with no extra configuration
       plugins = {
         lualine.enable = true;
+        lsp-format.enable = true;
       };
 
       plugins.toggleterm = {

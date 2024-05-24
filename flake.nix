@@ -23,6 +23,11 @@
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
     };
+
+    vfio-hooks = {
+      url = "github:PassthroughPOST/VFIO-Tools";
+      flake = false;
+    };
   };
 
   outputs = {home-manager, nur, ... }@inputs:
@@ -47,6 +52,7 @@
           inputs.hyprland.nixosModules.default
           ./modules/system/configuration.nix
           (./. + "/hosts/${hostname}/hardware-configuration.nix")
+          (./. + "/hosts/${hostname}/configuration.nix")
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
