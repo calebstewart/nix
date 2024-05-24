@@ -62,6 +62,13 @@
     platformTheme = "gtk";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+
+    name = "Numix-Cursor";
+    package = pkgs.numix-cursor-theme;
+  };
+
   home.packages = with pkgs; [
     neofetch
     pwvucontrol
