@@ -7,6 +7,7 @@
     # Setup home-manager modules
     inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModules.default
+    inputs.hyprland.homeManagerModules.default
 
     # Graphical User Interface (GUI)
     ./firefox
@@ -14,6 +15,7 @@
     ./eww
     ./waybar
     ./dunst
+    ./swaync
     ./hyprland
     ./wofi
     ./rofi
@@ -61,6 +63,13 @@
     platformTheme = "gtk";
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+
+    name = "Numix-Cursor";
+    package = pkgs.numix-cursor-theme;
+  };
+
   home.packages = with pkgs; [
     neofetch
     pwvucontrol
@@ -70,5 +79,6 @@
     vesktop
     zoom-us
     remmina
+    spotify
   ];
 }

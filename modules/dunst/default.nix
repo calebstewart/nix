@@ -20,7 +20,7 @@ in {
           idle_threshold = 120;
           font = "JetBrainsMono NerdFont 12";
           line_height = 0;
-          format = "<b>%s</b>\n%b";
+          format = "<b>%s</b>\\n%b";
           alignment = "center";
           icon_position = "left";
           startup_notification = "false";

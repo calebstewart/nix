@@ -12,12 +12,21 @@ let
   mkBinding = {extraModifier ? "", key, executor ? "exec", command ? ""}:
     "${modifier} ${extraModifier}, ${key}, ${executor}, ${command}";
 in {
-  options.modules.hyprland = { enable = lib.mkEnableOption "hyprland"; };
+  options.modules.hyprland = {
+    enable = lib.mkEnableOption "hyprland";
+
+    monitors = lib.mkOption {
+      default = [];
+    };
+
+    swap_escape = lib.mkOption {
+      default = false;
+    };
+  };
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       swaybg
       wl-clipboard
-      hyprland
       slurp
       grimblast
       brightnessctl
@@ -26,9 +35,16 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+
+      plugins = [
+        inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+      ];
 
       settings = {
-        monitor = ",preferred,auto,1";
+        "$mod" = modifier;
+
+        monitor = [",preferred,auto,1"] ++ cfg.monitors;
         master.new_is_master = true;
         gestures.workspace_swipe = true;
 
@@ -39,7 +55,7 @@ in {
 
         input = {
           kb_layout = "us";
-          kb_options = "caps:swapescape";
+          kb_options = if cfg.swap_escape then "caps:swapescape" else "";
           follow_mouse = 1;
           sensitivity = 0;
           touchpad.natural_scroll = true;
@@ -113,31 +129,37 @@ in {
           "${modifier}, k, movefocus, u"
           "${modifier}, j, movefocus, d"
 
-          "${modifier}, 1, workspace, 1"
-          "${modifier}, 2, workspace, 2"
-          "${modifier}, 3, workspace, 3"
-          "${modifier}, 4, workspace, 4"
-          "${modifier}, 5, workspace, 5"
-          "${modifier}, 6, workspace, 6"
-          "${modifier}, 7, workspace, 7"
-          "${modifier}, 8, workspace, 8"
-          "${modifier}, 9, workspace, 9"
-          "${modifier}, 0, workspace, 10"
+          "${modifier}, 1, split:workspace, 1"
+          "${modifier}, 2, split:workspace, 2"
+          "${modifier}, 3, split:workspace, 3"
+          "${modifier}, 4, split:workspace, 4"
+          "${modifier}, 5, split:workspace, 5"
+          "${modifier}, 6, split:workspace, 6"
+          "${modifier}, 7, split:workspace, 7"
+          "${modifier}, 8, split:workspace, 8"
+          "${modifier}, 9, split:workspace, 9"
+          "${modifier}, 0, split:workspace, 10"
 
-          "${modifier} SHIFT, 1, movetoworkspace, 1"
-          "${modifier} SHIFT, 2, movetoworkspace, 2"
-          "${modifier} SHIFT, 3, movetoworkspace, 3"
-          "${modifier} SHIFT, 4, movetoworkspace, 4"
-          "${modifier} SHIFT, 5, movetoworkspace, 5"
-          "${modifier} SHIFT, 6, movetoworkspace, 6"
-          "${modifier} SHIFT, 7, movetoworkspace, 7"
-          "${modifier} SHIFT, 8, movetoworkspace, 8"
-          "${modifier} SHIFT, 9, movetoworkspace, 9"
-          "${modifier} SHIFT, 0, movetoworkspace, 10"
+          "${modifier} SHIFT, 1, split:movetoworkspace, 1"
+          "${modifier} SHIFT, 2, split:movetoworkspace, 2"
+          "${modifier} SHIFT, 3, split:movetoworkspace, 3"
+          "${modifier} SHIFT, 4, split:movetoworkspace, 4"
+          "${modifier} SHIFT, 5, split:movetoworkspace, 5"
+          "${modifier} SHIFT, 6, split:movetoworkspace, 6"
+          "${modifier} SHIFT, 7, split:movetoworkspace, 7"
+          "${modifier} SHIFT, 8, split:movetoworkspace, 8"
+          "${modifier} SHIFT, 9, split:movetoworkspace, 9"
+          "${modifier} SHIFT, 0, split:movetoworkspace, 10"
         ];
+
+        source = "~/.config/hypr/config.d/*.conf";
       };
 
     };
+
+    # Write an empty config so that the source directive doesn't die when no other modules
+    # write configurations here.
+    home.file.".config/hypr/config.d/00-empty.conf".text = "";
 
     services.swayidle = {
       enable = true;
@@ -183,7 +205,8 @@ in {
       settings = with config.colorScheme.palette; {
         screenshots = true;
         fade-in = 1;
-        effect-blur = "6x2";
+        effect-pixelate = 20;
+        effect-scale = 0.5;
 
         inside-color = "${base00}";
         inside-clear-color = "${base0D}";

@@ -75,9 +75,6 @@ in {
             active = "";
             default = "";
           };
-          persistent-workspaces = {
-            "*" = 5;
-          };
         };
 
         "wlr/taskbar" = {
