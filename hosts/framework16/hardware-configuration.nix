@@ -43,4 +43,14 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Enable fprintd for the finger print driver
+  services.fprintd = {
+    enable = true;
+    
+    tod = {
+      enable = false;
+      driver = pkgs.libfprint-2-tod1-goodix;
+    };
+  };
 }

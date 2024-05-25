@@ -79,6 +79,8 @@ in {
         };
       };
 
+      plugins.cmp-nvim-lsp-signature-help.enable = true;
+
       plugins.treesitter = {
         enable = true;
       };
@@ -94,6 +96,13 @@ in {
           {name = "buffer";}
         ];
       };
+
+      plugins.none-ls = {
+        enable = true;
+        enableLspFormat = true;
+      };
+
+      plugins.lsp-format.enable = true;
     };
   };
 }

@@ -8,15 +8,15 @@ in {
     services.dunst = {
       enable = true;
       settings = {
-        global = {
+        global = with config.colorScheme.palette; {
           origin = "top-right";
-          offset = "120x24";
-          separator_height = 4;
+          offset = "24x24";
+          separator_height = 2;
           padding = 12;
           horizontal_padding = 12;
           text_icon_padding = 12;
-          frame_width = 4;
-          separator_color = "frame";
+          frame_width = 1;
+          separator_color = "#${base04}ee";
           idle_threshold = 120;
           font = "JetBrainsMono NerdFont 12";
           line_height = 0;
@@ -24,11 +24,11 @@ in {
           alignment = "center";
           icon_position = "left";
           startup_notification = "false";
-          corner_radius = 12;
-          frame_color = "#44465c";
-          background = "#303241";
-          foreground = "#d9e0ee";
-          timeout = 2;
+          corner_radius = 15;
+          frame_color = "#${base0D}ee";
+          background = "#${base00}ee";
+          foreground = "#${base05}ee";
+          timeout = 4;
         };
       };
     };

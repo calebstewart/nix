@@ -22,6 +22,11 @@ in {
           file = "lib/spaceship-prompt/spaceship.zsh";
           src = "${pkgs.spaceship-prompt}";
         }
+        {
+          name = "zsh-nix-shell";
+          file = "nix-shell.plugin.zsh";
+          src = "${pkgs.zsh-nix-shell}";
+        }
       ];
     };
   };
