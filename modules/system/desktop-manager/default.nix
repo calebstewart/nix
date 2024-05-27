@@ -63,6 +63,12 @@ in {
       driSupport = true;
     };
 
-    security.pam.services.swaylock = {};
+    security.pam.services.swaylock = {
+      fprintAuth = config.modules.fingerprint.enable;
+    };
+
+    security.pam.services.gdm = {
+      fprintAuth = config.modules.fingerprint.enable;
+    };
   };
 }

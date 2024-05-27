@@ -77,6 +77,7 @@ in {
           gopls.enable = true;
           nixd.enable = true;
           pyright.enable = true;
+          clangd.enable = true;
         };
       };
 
@@ -102,8 +103,6 @@ in {
         enable = true;
         enableLspFormat = true;
       };
-
-      plugins.lsp-format.enable = true;
     };
   };
 }

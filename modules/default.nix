@@ -80,5 +80,12 @@
     zoom-us
     remmina
     spotify
+    ffmpeg
+    audacity
+    gnumake
+    gcc
+    zip
+    unzip
+    file
   ];
 }

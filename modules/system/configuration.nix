@@ -18,6 +18,7 @@
     ./systemd-boot
     ./time
     ./security
+    ./fingerprint
   ];
 
   # Allow installation of non-free packages
