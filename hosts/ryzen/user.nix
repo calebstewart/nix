@@ -21,9 +21,9 @@
       swap_escape = false; # We use a nice keyboard :)
       
       monitors = [
-        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,0x0,1"
-        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,3840x0,1"
-        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,7680x0,1"
+        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,0x0,1.5"
+        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,2560x0,1.5"
+        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,5120x0,1.5"
       ];
     };
 
@@ -33,6 +33,7 @@
     git.enable = true;
     golang.enable = true;
     zoxide.enable = true;
+    bat.enable = true;
     # gpg.enable = true;
     # direnv.enable = true;
 

@@ -16,6 +16,14 @@ in {
         push.autoSetupRemote = true;
         gpg.format = "ssh";
       };
+
+      includes = lib.attrsets.mapAttrsToList (name: alias: {
+        condition = "gitdir:~/git/${name}";
+        contents.user = {
+          email = lib.attrsets.attrByPath ["email"] user.email alias;
+          name = lib.attrsets.attrByPath ["fullName"] user.fullName alias;
+        };
+      }) user.aliases;
     };
   };
 }

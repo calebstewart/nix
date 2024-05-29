@@ -26,6 +26,7 @@
     git.enable = true;
     golang.enable = true;
     zoxide.enable = true;
+    bat.enable = true;
     # gpg.enable = true;
     # direnv.enable = true;
 

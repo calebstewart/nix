@@ -36,6 +36,12 @@
       name = "caleb";
       fullName = "Caleb Stewart";
       email = "caleb.stewart94@gmail.com";
+
+      aliases = {
+        huntress = {
+          email = "caleb.stewart@huntresslabs.com";
+        };
+      };
     };
 
     # Function to uniformly define a system based on it's hostname and

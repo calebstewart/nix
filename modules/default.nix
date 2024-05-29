@@ -27,6 +27,7 @@
     ./git
     ./golang
     ./zoxide
+    ./bat
     # ./gpg
     # ./direnv
 
