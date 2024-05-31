@@ -1,5 +1,20 @@
 { config, lib, inputs, username, ...}:
+let
+  # Scaling factor to use for rendering for all monitors
+  scaling_factor = 1.25;
 
+  # Default resolution of my desktop monitors
+  resolution = {
+    width = 3840;
+    height = 2160;
+  };
+
+  # Resolution of monitors after scaling
+  scaled_resolution = {
+    width = builtins.floor (resolution.width / scaling_factor);
+    height = builtins.floor (resolution.height / scaling_factor);
+  };
+in
 {
   imports = [
     ../../modules/default.nix
@@ -21,9 +36,9 @@
       swap_escape = false; # We use a nice keyboard :)
       
       monitors = [
-        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,0x0,1.5"
-        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,2560x0,1.5"
-        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,5120x0,1.5"
+        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,0x0,${builtins.toString scaling_factor}"
+        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,${builtins.toString scaled_resolution.width}x0,${builtins.toString scaling_factor}"
+        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,${builtins.toString (scaled_resolution.width*2)}x0,${builtins.toString scaling_factor}"
       ];
     };
 

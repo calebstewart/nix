@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{lib, config, pkgs, ...}:
 let
   cfg = config.modules.bat;
 in {
@@ -16,8 +16,13 @@ in {
       };
     };
 
+    home.packages = with pkgs; [
+      bat-extras.batman
+    ];
+
     home.shellAliases = {
       "cat" = "bat";
+      "man" = "batman";
     };
   };
 }
