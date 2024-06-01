@@ -12,7 +12,10 @@ in {
       defaultEditor = true;
       colorschemes.base16.enable = true;
       
-      globals.mapleader = " ";
+      globals = {
+        mapleader = " ";
+        transparent_enabled = true;
+      };
 
       # Neovim options
       opts = {
@@ -149,6 +152,7 @@ in {
 
       extraPlugins = with pkgs.vimPlugins; [
         vim-bbye # bbye provides nicer Bwipeout which doesn't close the window
+        transparent-nvim
       ];
 
       keymaps = [
