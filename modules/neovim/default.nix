@@ -76,6 +76,7 @@ in {
         transparent.enable = true;
         noice.enable = true;
         notify.enable = true;
+        neogit.enable = true;
       };
 
       # Toggle-able terminal emulators within Neovim!
@@ -157,7 +158,72 @@ in {
         vim-bbye # bbye provides nicer Bwipeout which doesn't close the window
       ];
 
+      plugins.which-key = {
+        enable = true;
+
+        registrations = {
+          "<leader>w" = "Window Commands";
+          "<leader>wh" = "Focus window left";
+          "<leader>wl" = "Focus window right";
+          "<leader>wj" = "Focus window down";
+          "<leader>wk" = "Focus window up";
+
+          "<leader>b" = "Buffer Commands";
+          "<leader>bd" = "Close current buffer";
+          "<leader>bK" = "Close all buffers";
+          "<leader>bh" = "Switch to previous buffer";
+          "<leader>bl" = "Switch to next buffer";
+          "<leader>bj" = "Toggle previous buffer";
+          "<leader>bk" = "Toggle previous buffer";
+
+          "<leader>o" = "Tools and Utilities";
+          "<leader>of" = "Toggle File Browser";
+          "<leader>ot" = "Toggle Terminal";
+
+          "<leader>g" = "Go to...";
+          "<leader>gd" = "Go to definition";
+          "<leader>gt" = "Go to type definition";
+          "<leader>gi" = "Go to implementation";
+
+          "<leader>f" = "Find...";
+          "<leader>ff" = "Find file";
+          "<leader>fi" = "Find Incoming Calls";
+          "<leader>fo" = "Find Outgoing Calls";
+          "<leader>fr" = "Find References";
+        };
+      };
+
       keymaps = [
+        {
+          key = "<leader>gd";
+          action = "<cmd>Telescope lsp_definitions<CR>";
+        }
+        {
+          key = "<leader>gt";
+          action = "<cmd>Telescope lsp_type_definitions<CR>";
+        }
+        {
+          key = "<leader>gi";
+          action = "<cmd>Telescope lsp_implementations<CR>";
+        }
+
+        {
+          key = "<leader>ff";
+          action = "<cmd>Telescope git_files<CR>";
+        }
+        {
+          key = "<leader>fi";
+          action = "<cmd>Telescope lsp_incoming_calls<CR>";
+        }
+        {
+          key = "<leader>fo";
+          action = "<cmd>Telescope lsp_outgoing_calls<CR>";
+        }
+        {
+          key = "<leader>fr";
+          action = "<cmd>Telescope lsp_references<CR>";
+        }
+
         # Toggle the file explorer
         {
           key = "<leader>of";
