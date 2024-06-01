@@ -7,28 +7,6 @@
   # DO NOT MODIFY
   system.stateVersion = "23.11";
 
-  nixpkgs.overlays = [
-    (self: super: {
-      pwvucontrol = super.pwvucontrol.overrideAttrs (old: rec {
-        version = "0.4.1";
-
-        src = super.fetchFromGitHub {
-          owner = "saivert";
-          repo = "pwvucontrol";
-          rev = "0.4.1";
-          sha256 = "sha256-soxB8pbbyYe1EXtopq1OjoklEDJrwK6od4nFLDwb8LY=";
-        };
-
-        cargoDeps = super.rustPlatform.importCargoLock {
-          lockFile = "${src}/Cargo.lock";
-          outputHashes = {
-            "wireplumber-0.1.0" = "sha256-+LZ8xKok2AOegW8WvfrfZGXuQB4xHrLNshcTOHab+xQ=";
-          };
-        };
-      });
-    })
-  ];
-
   imports = [
     ./virtualisation
     ./containers

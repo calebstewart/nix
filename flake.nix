@@ -44,6 +44,33 @@
       };
     };
 
+    overlays = [
+      # Add the Nix User Repository
+      nur.overlay
+
+      # Override pwvucontrol with the newest version which doesn't crash
+      # FIXME: remove this once the packages get updated upstream
+      (self: super: {
+        pwvucontrol = super.pwvucontrol.overrideAttrs (old: rec {
+          version = "0.4.1";
+
+          src = super.fetchFromGitHub {
+            owner = "saivert";
+            repo = "pwvucontrol";
+            rev = "0.4.1";
+            sha256 = "sha256-soxB8pbbyYe1EXtopq1OjoklEDJrwK6od4nFLDwb8LY=";
+          };
+
+          cargoDeps = super.rustPlatform.importCargoLock {
+            lockFile = "${src}/Cargo.lock";
+            outputHashes = {
+              "wireplumber-0.1.0" = "sha256-+LZ8xKok2AOegW8WvfrfZGXuQB4xHrLNshcTOHab+xQ=";
+            };
+          };
+        });
+      })
+    ];
+
     # Function to uniformly define a system based on it's hostname and
     # platform name.
     makeSystem = {hostname, system, user}:
@@ -53,24 +80,12 @@
         modules = [
           {
             networking.hostName = hostname;
-            nixpkgs.overlays = [nur.overlay];
+            nixpkgs.overlays = overlays;
           }
           inputs.hyprland.nixosModules.default
           ./modules/system/configuration.nix
           (./. + "/hosts/${hostname}/hardware-configuration.nix")
           (./. + "/hosts/${hostname}/configuration.nix")
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit inputs;
-                inherit system;
-                inherit user;
-              };
-              users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
-            };
-          }
         ];
 
         specialArgs = {
@@ -78,6 +93,33 @@
           inherit user;
           inherit system;
         };
+      };
+
+    makeHome = {hostname, system, user}:
+      inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+
+          config = {
+            allowUnfree = true;
+          };
+        };
+
+        extraSpecialArgs = {
+          inherit inputs;
+          inherit system;
+          inherit user;
+        };
+
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            home.username = user.name;
+            home.homeDirectory = inputs.nixpkgs.lib.mkDefault "/home/${user.name}";
+          }
+          inputs.hyprland.homeManagerModules.default
+          (./. + "/hosts/${hostname}/user.nix")
+        ];
       };
   in {
     nixosConfigurations = {
@@ -87,6 +129,20 @@
         system = "x86_64-linux";
       };
       ryzen = makeSystem {
+        inherit user;
+        hostname = "ryzen";
+        system = "x86_64-linux";
+      };
+    };
+
+    homeConfigurations = {
+      "${user.name}@framework16" = makeHome {
+        inherit user;
+        hostname = "framework16";
+        system = "x86_64-linux";
+      };
+
+      "${user.name}@ryzen" = makeHome {
         inherit user;
         hostname = "ryzen";
         system = "x86_64-linux";

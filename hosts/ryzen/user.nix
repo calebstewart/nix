@@ -1,4 +1,4 @@
-{ config, lib, inputs, username, ...}:
+{ user, ...}:
 let
   # Scaling factor to use for rendering for all monitors
   scaling_factor = 1.25;
@@ -19,6 +19,7 @@ in
   imports = [
     ../../modules/default.nix
   ];
+
   config.modules = {
     # Graphical User Interface (GUI)
     firefox.enable = true;
