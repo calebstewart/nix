@@ -73,6 +73,9 @@ in {
         oil.enable = true;
         treesitter.enable = true;
         cmp-nvim-lsp-signature-help.enable = true;
+        transparent.enable = true;
+        noice.enable = true;
+        notify.enable = true;
       };
 
       # Toggle-able terminal emulators within Neovim!
@@ -152,7 +155,6 @@ in {
 
       extraPlugins = with pkgs.vimPlugins; [
         vim-bbye # bbye provides nicer Bwipeout which doesn't close the window
-        transparent-nvim
       ];
 
       keymaps = [
