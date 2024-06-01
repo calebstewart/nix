@@ -15,6 +15,12 @@ in {
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         gpg.format = "ssh";
+
+        url = {
+          "git@github.com:" = {
+            insteadOf = "https://github.com/";
+          };
+        };
       };
 
       includes = lib.attrsets.mapAttrsToList (name: alias: {

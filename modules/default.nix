@@ -28,6 +28,7 @@
     ./golang
     ./zoxide
     ./bat
+    ./eza
     # ./gpg
     # ./direnv
 
@@ -70,6 +71,10 @@
 
     name = "Numix-Cursor";
     package = pkgs.numix-cursor-theme;
+  };
+
+  home.sessionVariables = {
+    GOPRIVATE="github.com/huntresslabs";
   };
 
   home.packages = with pkgs; [
