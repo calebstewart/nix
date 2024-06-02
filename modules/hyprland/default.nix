@@ -23,6 +23,7 @@ in {
       default = false;
     };
   };
+
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       swaybg
@@ -30,6 +31,8 @@ in {
       slurp
       grimblast
       brightnessctl
+      polkit_gnome
+      showmethekey
     ];
 
     wayland.windowManager.hyprland = {
@@ -52,6 +55,10 @@ in {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
         };
+
+        exec-once = [
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+        ];
 
         input = {
           kb_layout = "us";
@@ -109,6 +116,11 @@ in {
         windowrulev2 = [
           "suppressevent maximize, class:.*"
           "idleinhibit fullscreen, class:.*"
+          "float,class:(showmethekey-gtk)"
+          "size 100% 10%,class:(showmethekey-gtk)"
+          "move 0% 90%,class:(showmethekey-gtk)"
+          "noborder,class:(showmethekey-gtk)"
+          "animation slide bottom,class:(showmethekey-gtk)"
         ];
 
         bind = [
