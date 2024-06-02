@@ -273,6 +273,21 @@ in {
         vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
       '';
 
+      autoCmd = [
+        {
+          event = ["BufEnter" "BufWinEnter"];
+          pattern = "*.md";
+          desc = "Setup Markdown-Specific Keymaps";
+          callback.__raw = ''
+            function()
+              vim.schedule(function()
+                vim.keymap.set("n", "<leader>op", "<cmd>MarkdownPreview<CR>", {buffer = true})
+              end)
+            end
+          '';
+        }
+      ];
+
       keymaps = [
         {
           key = "<leader>gd";
