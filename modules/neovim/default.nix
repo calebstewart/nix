@@ -154,6 +154,11 @@ in {
             options.desc = "Restart LSP Server";
           }
           {
+            key = "<leader>gd";
+            action = "<cmd>Telescope lsp_definitions<CR>";
+            options.desc = "Go to Definition";
+          }
+          {
             key = "<leader>gt";
             action = "<cmd>Telescope lsp_type_definitions<CR>";
             options.desc = "Go to Type Definition";
@@ -289,12 +294,6 @@ in {
       ];
 
       keymaps = [
-        {
-          key = "<leader>gd";
-          action = "<cmd>Telescope lsp_definitions<CR>";
-          options.desc = "Go to Definition";
-        }
-
         {
           key = "<leader>ff";
           action = "<cmd>Telescope git_files<CR>";
