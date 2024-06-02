@@ -77,6 +77,7 @@ in {
         noice.enable = true;
         notify.enable = true;
         neogit.enable = true;
+        vim-bbye.enable = true;
       };
 
       # Toggle-able terminal emulators within Neovim!
@@ -154,42 +155,15 @@ in {
         };
       };
 
-      extraPlugins = with pkgs.vimPlugins; [
-        vim-bbye # bbye provides nicer Bwipeout which doesn't close the window
-      ];
-
       plugins.which-key = {
         enable = true;
 
         registrations = {
-          "<leader>w" = "Window Commands";
-          "<leader>wh" = "Focus window left";
-          "<leader>wl" = "Focus window right";
-          "<leader>wj" = "Focus window down";
-          "<leader>wk" = "Focus window up";
-
-          "<leader>b" = "Buffer Commands";
-          "<leader>bd" = "Close current buffer";
-          "<leader>bK" = "Close all buffers";
-          "<leader>bh" = "Switch to previous buffer";
-          "<leader>bl" = "Switch to next buffer";
-          "<leader>bj" = "Toggle previous buffer";
-          "<leader>bk" = "Toggle previous buffer";
-
-          "<leader>o" = "Tools and Utilities";
-          "<leader>of" = "Toggle File Browser";
-          "<leader>ot" = "Toggle Terminal";
-
+          "<leader>w" = "Windows...";
+          "<leader>b" = "Buffers...";
+          "<leader>o" = "Open Tools...";
           "<leader>g" = "Go to...";
-          "<leader>gd" = "Go to definition";
-          "<leader>gt" = "Go to type definition";
-          "<leader>gi" = "Go to implementation";
-
           "<leader>f" = "Find...";
-          "<leader>ff" = "Find file";
-          "<leader>fi" = "Find Incoming Calls";
-          "<leader>fo" = "Find Outgoing Calls";
-          "<leader>fr" = "Find References";
         };
       };
 
@@ -197,101 +171,118 @@ in {
         {
           key = "<leader>gd";
           action = "<cmd>Telescope lsp_definitions<CR>";
+          options.desc = "Go to Definition";
         }
+
         {
           key = "<leader>gt";
           action = "<cmd>Telescope lsp_type_definitions<CR>";
+          options.desc = "Go to Type Definition";
         }
+
         {
           key = "<leader>gi";
           action = "<cmd>Telescope lsp_implementations<CR>";
+          options.desc = "Go to Implementation";
         }
 
         {
           key = "<leader>ff";
           action = "<cmd>Telescope git_files<CR>";
+          options.desc = "Find Project File";
         }
         {
           key = "<leader>fi";
           action = "<cmd>Telescope lsp_incoming_calls<CR>";
+          options.desc = "Find Incoming Calls";
         }
         {
           key = "<leader>fo";
           action = "<cmd>Telescope lsp_outgoing_calls<CR>";
+          options.desc = "Find Outgoing Calls";
         }
         {
           key = "<leader>fr";
           action = "<cmd>Telescope lsp_references<CR>";
+          options.desc = "Find References";
         }
 
-        # Toggle the file explorer
         {
           key = "<leader>of";
           action = "<cmd>Neotree toggle<CR>";
+          options.desc = "Toggle NeoTree Explorer";
         }
 
-        # Toggle the terminal
         {
           key = "<leader>ot";
           action = "<cmd>ToggleTerm<CR>";
+          options.desc = "Toggle Terminal";
         }
 
-        # Close the current buffer
+        {
+          key = "<leader>og";
+          action = "<cmd>Neogit<CR>";
+          options.desc = "Open Neogit";
+        }
+
         {
           key = "<leader>bd";
           action = "<cmd>Bwipeout<CR>";
+          options.desc = "Close Current Buffer";
         }
 
-        # Close all buffers
         {
           key = "<leader>bK";
           action = "<cmd>bufdo :Bwipeout<CR>";
+          options.desc = "Close All Buffers";
         }
 
-        # Move to the previous buffer
         {
           key = "<leader>bh";
           action = "<cmd>bprevious<CR>";
+          options.desc = "Switch to Previous Buffer";
         }
 
-        # Move to the next buffer
         {
           key = "<leader>bl";
           action = "<cmd>bnext<CR>";
+          options.desc = "Switch to Next Buffer";
         }
 
-        # Swap between the two most recent buffers (either j or k)
         {
           key = "<leader>bk";
           action = "<cmd>b#<CR>";
+          options.desc = "Toggle Between Recent Buffers";
         }
+
         {
           key = "<leader>bj";
           action = "<cmd>b#<CR>";
+          options.desc = "Toggle Between Recent Buffers";
         }
 
-        # Move to the next window to the left
         {
           key = "<leader>wh";
           action = "<cmd>wincmd h<CR>";
+          options.desc = "Focus Window Left";
         }
 
-        # Move to the next window down
         {
           key = "<leader>wj";
           action = "<cmd>wincmd j<CR>";
+          options.desc = "Focus Window Down";
         }
 
-        # Move to the next window up
         {
           key = "<leader>wk";
           action = "<cmd>wincmd k<CR>";
+          options.desc = "Focus Window Up";
         }
 
-        # Move to the next window right
         {
           key = "<leader>wl";
           action = "<cmd>wincmd l<CR>";
+          options.desc = "Focus Window Right";
         }
       ];
     };
