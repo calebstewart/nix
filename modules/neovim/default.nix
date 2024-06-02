@@ -86,6 +86,16 @@ in {
         illuminate.enable = true;
       };
 
+      plugins.markdown-preview = {
+        enable = true;
+
+        settings = {
+          auto_start = false;
+          auto_close = true;
+          browser = "firefox";
+        };
+      };
+
       plugins.trouble = {
         enable = true;
         icons = true;
