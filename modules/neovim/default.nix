@@ -73,7 +73,7 @@ in {
       # Enable common plugins with no extra configuration
       plugins = {
         nix.enable = true;
-        bufferline.enable = true;
+        # bufferline.enable = true;
         lualine.enable = true;
         lsp-format.enable = true;
         oil.enable = true;
@@ -83,6 +83,11 @@ in {
         noice.enable = true;
         neogit.enable = true;
         vim-bbye.enable = true;
+      };
+
+      plugins.trouble = {
+        enable = true;
+        icons = true;
       };
 
       # Fancy notifications within neovim
@@ -101,6 +106,11 @@ in {
           direction = "horizontal";
           hide_numbers = true;
         };
+      };
+
+      plugins.lspsaga = {
+        enable = true;
+        ui.devicon = true;
       };
 
       # Setup Language Servers
@@ -179,6 +189,13 @@ in {
           "<leader>f" = "Find...";
         };
       };
+
+      extraConfigVim = ''
+        sign define DiagnosticSignError text= texthl=TextError linehl= numhl=
+        sign define DiagnosticSignWarn  text= texthl=TextWarn  linehl= numhl=
+        sign define DiagnosticSignInfo  text= texthl=TextInfo  linehl= numhl=
+        sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=
+      '';
 
       keymaps = [
         {
