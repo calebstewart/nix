@@ -95,4 +95,17 @@
     unzip
     file
   ];
+
+  # Override the pwvucontrol desktop file to give a better name
+  # and provide an icon.
+  xdg.desktopEntries = {
+    "com.saivert.pwvucontrol" = {
+      name = "PipeWire Control";
+      genericName = "Sound Settings";
+      exec = "pwvucontrol %U";
+      terminal = false;
+      categories = ["AudioVideo" "Audio"];
+      icon = ./.. + "/icons/equalizer.png";
+    };
+  };
 }

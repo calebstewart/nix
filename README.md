@@ -82,3 +82,12 @@ but you will only need to provide the `user.nix` file.
 
 In this case, you can add the primary user and your hostname to the `homeConfigurations`
 variable in `flake.nix` and proceed as normal.
+
+## Icons
+
+| Path | Purpose | Source/Attribution |
+| ---- | ------- | ------------------ |
+| [equalizer.png] | Icon Used for [pwvucontrol] | <a href="https://www.flaticon.com/free-icons/mixer" title="mixer icons">Mixer icons created by Nikita Golubev - Flaticon</a> |
+
+[equalizer.png]: ./icons/equalizer.png
+[pwvucontrol]: https://github.com/saivert/pwvucontrol
