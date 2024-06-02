@@ -83,6 +83,7 @@ in {
         noice.enable = true;
         neogit.enable = true;
         vim-bbye.enable = true;
+        illuminate.enable = true;
       };
 
       plugins.trouble = {
@@ -125,6 +126,65 @@ in {
           clangd.enable = true;
           rust-analyzer.enable = true;
         };
+
+        keymaps.extra = [
+          {
+            key = "<leader>lx";
+            action = "<CMD>LspStop<Enter>";
+            options.desc = "Stop LSP Server";
+          }
+          {
+            key = "<leader>ls";
+            action = "<CMD>LspStart<Enter>";
+            options.desc = "Start LSP Server";
+          }
+          {
+            key = "<leader>lr";
+            action = "<CMD>LspRestart<Enter>";
+            options.desc = "Restart LSP Server";
+          }
+          {
+            key = "<leader>gt";
+            action = "<cmd>Telescope lsp_type_definitions<CR>";
+            options.desc = "Go to Type Definition";
+          }
+
+          {
+            key = "<leader>gi";
+            action = "<cmd>Telescope lsp_implementations<CR>";
+            options.desc = "Go to Implementation";
+          }
+
+          {
+            key = "<leader>fi";
+            action = "<cmd>Telescope lsp_incoming_calls<CR>";
+            options.desc = "Find Incoming Calls";
+          }
+          {
+            key = "<leader>fo";
+            action = "<cmd>Telescope lsp_outgoing_calls<CR>";
+            options.desc = "Find Outgoing Calls";
+          }
+          {
+            key = "<leader>fr";
+            action = "<cmd>Telescope lsp_references<CR>";
+            options.desc = "Find References";
+          }
+          {
+            key = "K";
+            action = "<CMD>Lspsaga hover_doc<Enter>";
+          }
+          {
+            key = "<leader>la";
+            action = "<cmd>Lspsaga code_action<CR>";
+            options.desc = "View Code Actions";
+          }
+          {
+            key = "<leader>lr";
+            action = "<cmd>lua vim.lsp.buf.rename()<CR>";
+            options.desc = "Rename Current Symbol";
+          }
+        ];
       };
 
       # Setup auto-completion
@@ -197,6 +257,12 @@ in {
         sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=
       '';
 
+      extraConfigLua = ''
+        vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+      '';
+
       keymaps = [
         {
           key = "<leader>gd";
@@ -205,36 +271,9 @@ in {
         }
 
         {
-          key = "<leader>gt";
-          action = "<cmd>Telescope lsp_type_definitions<CR>";
-          options.desc = "Go to Type Definition";
-        }
-
-        {
-          key = "<leader>gi";
-          action = "<cmd>Telescope lsp_implementations<CR>";
-          options.desc = "Go to Implementation";
-        }
-
-        {
           key = "<leader>ff";
           action = "<cmd>Telescope git_files<CR>";
           options.desc = "Find Project File";
-        }
-        {
-          key = "<leader>fi";
-          action = "<cmd>Telescope lsp_incoming_calls<CR>";
-          options.desc = "Find Incoming Calls";
-        }
-        {
-          key = "<leader>fo";
-          action = "<cmd>Telescope lsp_outgoing_calls<CR>";
-          options.desc = "Find Outgoing Calls";
-        }
-        {
-          key = "<leader>fr";
-          action = "<cmd>Telescope lsp_references<CR>";
-          options.desc = "Find References";
         }
 
         {
@@ -253,6 +292,12 @@ in {
           key = "<leader>og";
           action = "<cmd>Neogit<CR>";
           options.desc = "Open Neogit";
+        }
+
+        {
+          key = "<leader>bb";
+          action = "<cmd>Telescope buffers<CR>";
+          options.desc = "Show Open Buffers";
         }
 
         {
