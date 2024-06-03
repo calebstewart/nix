@@ -92,7 +92,7 @@ in {
         settings = {
           auto_start = false;
           auto_close = true;
-          browser = "firefox";
+          browserfunc = "OpenBrowser";
         };
       };
 
@@ -270,6 +270,10 @@ in {
         sign define DiagnosticSignWarn  text= texthl=TextWarn  linehl= numhl=
         sign define DiagnosticSignInfo  text= texthl=TextInfo  linehl= numhl=
         sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=
+
+        function OpenBrowser(url)
+          execute "silent ! firefox --new-window " . a:url
+        endfunction
       '';
 
       extraConfigLua = ''
