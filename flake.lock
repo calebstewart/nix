@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "any-nix-shell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717382525,
+        "narHash": "sha256-n4+aokW5o3EuXKqyc12vRsn5Mlkvdso27AdpahhySYw=",
+        "owner": "calebstewart",
+        "repo": "any-nix-shell",
+        "rev": "f048649700a047150d3bbc399869c4e003c96125",
+        "type": "github"
+      },
+      "original": {
+        "owner": "calebstewart",
+        "ref": "add-nix-develop-support",
+        "repo": "any-nix-shell",
+        "type": "github"
+      }
+    },
     "base16-schemes": {
       "flake": false,
       "locked": {
@@ -530,6 +547,7 @@
     },
     "root": {
       "inputs": {
+        "any-nix-shell": "any-nix-shell",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "hyprsplit": "hyprsplit",

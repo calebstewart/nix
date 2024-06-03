@@ -28,6 +28,12 @@
       url = "github:PassthroughPOST/VFIO-Tools";
       flake = false;
     };
+
+    # FIXME: Remove this when this PR is merged: https://github.com/haslersn/any-nix-shell/pull/34
+    any-nix-shell = {
+      url = "github:calebstewart/any-nix-shell/add-nix-develop-support";
+      flake = false;
+    };
   };
 
   outputs = {home-manager, nur, ... }@inputs:

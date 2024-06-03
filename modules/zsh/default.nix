@@ -1,6 +1,12 @@
-{pkgs, lib, config, ...}:
+{pkgs, lib, config, inputs, ...}:
 let
   cfg = config.modules.zsh;
+
+  # Override the any-nix-shell package with my custom fork, which
+  # implements support for the 'nix develop' command.
+  any-nix-shell = pkgs.any-nix-shell.overrideAttrs {
+    src = inputs.any-nix-shell;
+  };
 in {
   options.modules.zsh = {enable = lib.mkEnableOption "zsh";};
 
@@ -12,20 +18,19 @@ in {
       syntaxHighlighting.enable = true;
 
       shellAliases = {
-        system-rebuild = "doas nixos-rebuild switch --flake ~/git/nix";
         vim = "nvim";
       };
+
+      # Initialize any-nix-shell during zsh startup
+      initExtra = ''
+        ${any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
+      '';
 
       plugins = [
         {
           name = "spaceship-prompt";
           file = "lib/spaceship-prompt/spaceship.zsh";
           src = "${pkgs.spaceship-prompt}";
-        }
-        {
-          name = "zsh-nix-shell";
-          file = "nix-shell.plugin.zsh";
-          src = "${pkgs.zsh-nix-shell}";
         }
       ];
     };
