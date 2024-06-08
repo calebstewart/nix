@@ -11,7 +11,7 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "ahci" "uas" "usbhid" "sd_mod" "amdgpu" "vfio-pci"];
   boot.initrd.kernelModules = [ "dm-snapshot" "vfio-pci" ];
   boot.kernelModules = [ "vfio-pci" "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [];
 
   boot.kernelParams = [
     "amd_iommu=on"

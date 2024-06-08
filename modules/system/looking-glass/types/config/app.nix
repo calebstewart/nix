@@ -1,0 +1,36 @@
+{lib, ...}:
+let
+  typeYesNo = lib.types.addCheck lib.types.str (x: (x == "yes" || x == "no"));
+in {
+  options = {
+    renderer = lib.mkOption {
+      description = "Specify the renderer to use";
+      default = "auto";
+      type = lib.types.str;
+    };
+
+    cursorPollInterval = lib.mkOption {
+      description = "How often to check for a cursor update in microseconds";
+      default = 1000;
+      type = lib.types.ints.positive;
+    };
+
+    framePollInterval = lib.mkOption {
+      description = "How often to check for a frame update in microseconds";
+      default = 1000;
+      type = lib.types.ints.positive;
+    };
+
+    allowDMA = lib.mkOption {
+      description = "Allow DMA transfers if supported";
+      default = "yes";
+      type = typeYesNo;
+    };
+
+    shmFile = lib.mkOption {
+      description = "Path to the shared memory file or kvmfr device";
+      default = "/dev/kvmfr0";
+      type = lib.types.str;
+    };
+  };
+}

@@ -16,7 +16,7 @@ in {
     users.users.${user.name} = {
       description = user.fullName;
       isNormalUser = true;
-      extraGroups = ["wheel" "input"] ++ networkGroups ++ virtGroups;
+      extraGroups = ["wheel" "input" "podman" "docker"] ++ networkGroups ++ virtGroups;
       createHome = true;
       shell = pkgs.zsh;
     };

@@ -19,6 +19,8 @@
     ./time
     ./security
     ./fingerprint
+    ./docker
+    ./looking-glass
   ];
 
   # Allow installation of non-free packages
@@ -28,6 +30,15 @@
   nix = {
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
+  };
+
+  programs.noisetorch = {
+    enable = true;
+
+    
+    package = pkgs.noisetorch.overrideAttrs (oldAttrs: {
+      GOFLAGS = oldAttrs.GOFLAGS ++ ["-tags=nucular_shiny"];
+    });
   };
 
   # Enable the nix helper

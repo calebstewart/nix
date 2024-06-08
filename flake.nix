@@ -50,33 +50,6 @@
       };
     };
 
-    overlays = [
-      # Add the Nix User Repository
-      nur.overlay
-
-      # Override pwvucontrol with the newest version which doesn't crash
-      # FIXME: remove this once the packages get updated upstream
-      (self: super: {
-        pwvucontrol = super.pwvucontrol.overrideAttrs (old: rec {
-          version = "0.4.1";
-
-          src = super.fetchFromGitHub {
-            owner = "saivert";
-            repo = "pwvucontrol";
-            rev = "0.4.1";
-            sha256 = "sha256-soxB8pbbyYe1EXtopq1OjoklEDJrwK6od4nFLDwb8LY=";
-          };
-
-          cargoDeps = super.rustPlatform.importCargoLock {
-            lockFile = "${src}/Cargo.lock";
-            outputHashes = {
-              "wireplumber-0.1.0" = "sha256-+LZ8xKok2AOegW8WvfrfZGXuQB4xHrLNshcTOHab+xQ=";
-            };
-          };
-        });
-      })
-    ];
-
     # Function to uniformly define a system based on it's hostname and
     # platform name.
     makeSystem = {hostname, system, user}:
@@ -86,7 +59,10 @@
         modules = [
           {
             networking.hostName = hostname;
-            nixpkgs.overlays = overlays;
+            nixpkgs.overlays = import ./overlays {
+              inherit inputs;
+              inherit system;
+            };
           }
           inputs.hyprland.nixosModules.default
           ./modules/system/configuration.nix
@@ -119,7 +95,10 @@
 
         modules = [
           {
-            nixpkgs.overlays = overlays;
+            nixpkgs.overlays = import ./overlays {
+              inherit inputs;
+              inherit system;
+            };
             home.username = user.name;
             home.homeDirectory = inputs.nixpkgs.lib.mkDefault "/home/${user.name}";
           }

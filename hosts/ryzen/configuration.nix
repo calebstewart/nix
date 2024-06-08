@@ -3,7 +3,31 @@
 # system-level settings outside of home-manager in way specific to a host while not polluting
 # hardware-configuration.nix. Generally, this should just set configuration options for modules
 # under modules/system/*/default.nix.
-{config, ...}: {
+{config, pkgs, user, ...}:
+let
+  mkLibvirtDomain = {name, src}: pkgs.stdenv.mkDerivation {
+    inherit name src;
+
+    buildInputs = with pkgs; [
+      libvirt
+    ];
+
+    buildPhase = ''
+      virt-xml-validate $src/domain.xml
+    '';
+
+    installPhase = ''
+      mkdir -p $out/etc/libvirt/hooks/qemu.d/${name}
+      mkdir -p $out/var/lib/libvirt/qemu
+
+      if [ -d "$src/hooks" ]; then
+        cp -r $src/hooks/* $out/etc/libvirt/qemu.d/${name}/
+      fi
+
+      cp $src/domain.xml $out/var/lib/libvirt/qemu/${name}.xml
+    '';
+  };
+in {
   config.modules = {
     systemd-boot.enable = true;
     virtualisation.enable = true;
@@ -21,8 +45,33 @@
 
     containers = {
       enable = true;
-      enableCompose = true;
-      dockerCompat = true;
+      enableCompose = false;
+      dockerCompat = false;
+    };
+
+    docker = {
+      enable = true;
+    };
+
+    looking-glass = {
+      enable = true;
+
+      kvmfr = {
+        enable = true;
+        owner = user.name;
+        sizeMB = 128;
+      };
+
+      settings = {
+        app.shmFile = "/dev/kvmfr0";
+        input.escapeKey = "KEY_RIGHTCTRL";
+
+        win = {
+          fullScreen = "yes";
+          noScreensaver = "yes";
+          showFPS = "yes";
+        };
+      };
     };
   };
 }

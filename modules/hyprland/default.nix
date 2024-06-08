@@ -116,11 +116,18 @@ in {
         windowrulev2 = [
           "suppressevent maximize, class:.*"
           "idleinhibit fullscreen, class:.*"
+
           "float,class:(showmethekey-gtk)"
           "size 100% 10%,class:(showmethekey-gtk)"
           "move 0% 90%,class:(showmethekey-gtk)"
           "noborder,class:(showmethekey-gtk)"
           "animation slide bottom,class:(showmethekey-gtk)"
+
+          "float,class:(polkit-gnome-authentication-agent-1)"
+          "center,class:(polkit-gnome-authentication-agent-1)"
+          "pin,class:(polkit-gnome-authentication-agent-1)"
+          "stayfocused,class:(polkit-gnome-authentication-agent-1)"
+          "animation slide top,class:(polkit-gnome-authentication-agent-1)"
         ];
 
         bind = [
@@ -135,6 +142,7 @@ in {
           "${modifier} SHIFT, P, exec, ${printscreen_command}"
           "${modifier}, Backspace, exec, ${pkgs.swaylock-effects}/bin/swaylock -f"
           "${modifier}, U, exec, uuidgen | wl-copy"
+          "${modifier} SHIFT, F, fullscreen"
           
           "${modifier}, h, movefocus, l"
           "${modifier}, l, movefocus, r"

@@ -229,13 +229,6 @@ in {
         };
       };
 
-      # Alpha provides a nice dashboard if no file is opened
-      plugins.alpha = {
-        enable = true;
-        theme = "dashboard";
-        iconsEnabled = true;
-      };
-
       # Setup neotree for a file browser bar
       plugins.neo-tree = {
         enable = true;
@@ -293,6 +286,14 @@ in {
                 vim.keymap.set("n", "<leader>op", "<cmd>MarkdownPreview<CR>", {buffer = true})
               end)
             end
+          '';
+        }
+        {
+          event = ["VimEnter"];
+          pattern = "*";
+          desc = "Open current directory if no argument is given";
+          command = ''
+            if argc() == 0 | :Oil | endif
           '';
         }
       ];
