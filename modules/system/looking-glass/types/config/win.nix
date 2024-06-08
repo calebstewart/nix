@@ -1,7 +1,4 @@
-{lib, ...}:
-let
-  typeYesNo = lib.types.addCheck lib.types.str (x: (x == "yes" || x == "no"));
-in {
+{lib, typeYesNo, ...}: {
   options = {
     title = lib.mkOption {
       description = "Window Title";

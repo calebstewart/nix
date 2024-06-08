@@ -5,6 +5,7 @@ in {
   options.modules.looking-glass = {
     enable = lib.mkEnableOption "looking-glass";
 
+    # Allow the user to override the looking-glass-client package
     package = lib.mkOption {
       description = "Package providing the looking-glass-client";
       type = lib.types.package;
@@ -27,11 +28,18 @@ in {
       };
     };
 
+    # Options for using the KVM Frame Relay Kernel Module
     kvmfr = {
       enable = lib.mkEnableOption "kvmfr";
 
       owner = lib.mkOption {
         description = "Owner of the kvmfr device file(s)";
+        default = "kvm";
+        type = lib.types.str;
+      };
+
+      group = lib.mkOption {
+        description = "Group of the kvmfr device file(s)";
         default = "kvm";
         type = lib.types.str;
       };
@@ -43,12 +51,13 @@ in {
       };
 
       sizeMB = lib.mkOption {
-        description = "Size (in megabytes) of the frame-relay device";
+        description = "Size (in megabytes) of the frame-relay device (see: https://looking-glass.io/docs/B6/install/#determining-memory)";
         default = 32;
         type = lib.types.ints.positive;
       };
     };
 
+    # Options for creating the /dev/shm shared memory file
     shm = {
       enable = lib.mkEnableOption "Shared Memory File";
 
@@ -64,35 +73,56 @@ in {
       };
     };
 
+    # Client configuration (written to /etc/looking-glass-client.ini)
     settings = lib.mkOption {
       description = "Looking Glass client configuration";
       default = {};
-      type = lib.types.submodule ./types/config/config.nix;
+      type = lib.types.submodule ./types/config;
     };
   };
 
   config = lib.mkIf cfg.enable {
     # Install looking glass
     environment.systemPackages = [cfg.package];
+    boot.extraModulePackages = lib.lists.optional cfg.kvmfr.enable cfg.kvmfr.package;
 
     # Create the configuration file if requested
-    environment.etc."looking-glass-client.ini" = {
-      text = lib.generators.toINI {} cfg.settings;
+    environment.etc = {
+      # Write the looking glass configuration
+      "looking-glass-client.ini" = {
+        text = lib.generators.toINI {} cfg.settings;
+      };
+
+      # Set the frame size if kvmfr is enabled
+      "modprobe.d/kvmfr.conf" = {
+        enable = cfg.kvmfr.enable;
+        text = ''
+          options kvmfr static_size_mb=${builtins.toString cfg.kvmfr.sizeMB}
+        '';
+      };
+
+      # Load the kvmfr module at boot if enabled
+      "modules-load.d/kvmfr.conf" = {
+        enable = cfg.kvmfr.enable;
+        text = ''
+          # KVMFR Looking Glass Module
+          kvmfr
+        '';
+      };
     };
 
-    # Ensure that kvmfr device files are owned by the correct user/group
-    services.udev.extraRules = if cfg.kvmfr.enable then ''
-      SUBSYSTEM=="kvmfr", OWNER="${cfg.kvmfr.owner}", GROUP="kvm", MODE="0600"
-    '' else "";
+    # Automatically apply permissions to the kvmfr device as requested
+    services.udev.packages = lib.lists.optional cfg.kvmfr.enable (pkgs.writeTextFile {
+      name = "99-kvmfr.rules";
+      destination = "/etc/udev/rules.d/99-kvmfr.rules";
+      text = ''
+        SUBSYSTEM=="kvmfr", OWNER="${cfg.kvmfr.owner}", GROUP="${cfg.kvmfr.group}", MODE="0660"
+      '';
+    });
 
-    # Enable and load the kvmfr module at boot
-    boot.kernelModules = if cfg.kvmfr.enable then ["kvmfr"] else [];
-    boot.extraModulePackages = if cfg.kvmfr.enable then [cfg.kvmfr.package] else [];
-    boot.kernelParams = if cfg.kvmfr.enable then ["kvmfr.static_size_mb=${builtins.toString cfg.kvmfr.sizeMB}"] else [];
-
-    # Have systemd pre-create the shared memory file
-    systemd.tmpfiles.rules = if !cfg.shm.enable then [
-      "f /dev/shm/${cfg.shm.name} 0660 ${cfg.shm.owner} qemu-libvirtd -"
-    ] else [];
+    # Create the /dev/shm file if requested
+    systemd.tmpfiles.rules = lib.lists.optional cfg.shm.enable ''
+      f /dev/shm/${cfg.shm.name} 0660 ${cfg.shm.owner} qemu-libvirtd -
+    '';
   };
 }

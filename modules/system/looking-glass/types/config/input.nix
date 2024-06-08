@@ -1,7 +1,4 @@
-{lib, ...}:
-let
-  typeYesNo = lib.types.addCheck lib.types.str (x: (x == "yes" || x == "no"));
-in {
+{lib, typeYesNo, ...}: {
   options = {
     grabKeyboard = lib.mkOption {
       description = "Grab the keybaord in capture mode";
