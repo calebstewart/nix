@@ -1,4 +1,4 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     renderer = lib.mkOption {
       description = "Specify the renderer to use";
@@ -20,8 +20,8 @@
 
     allowDMA = lib.mkOption {
       description = "Allow DMA transfers if supported";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     shmFile = lib.mkOption {

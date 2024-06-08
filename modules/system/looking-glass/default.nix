@@ -1,6 +1,17 @@
 {config, pkgs, lib, ...}: 
 let
   cfg = config.modules.looking-glass;
+
+  # Generate the looking-glass-client configuration where boolean values
+  # are encoded as "yes" or "no".
+  generateConfig = settings: lib.generators.toINI {
+    mkKeyValue = lib.generators.mkKeyValueDefault {
+      mkValueString = v:
+        if (true == v) then "yes"
+        else if (false == v) then "no"
+        else (lib.generators.mkValueStringDefault {} v);
+    } "=";
+  } settings;
 in {
   options.modules.looking-glass = {
     enable = lib.mkEnableOption "looking-glass";
@@ -104,9 +115,7 @@ in {
     # Create the configuration file if requested
     environment.etc = {
       # Write the looking glass configuration
-      "looking-glass-client.ini" = {
-        text = lib.generators.toINI {} cfg.settings;
-      };
+      "looking-glass-client.ini".text = generateConfig cfg.settings;
 
       # Set the frame size if kvmfr is enabled
       "modprobe.d/kvmfr.conf" = {

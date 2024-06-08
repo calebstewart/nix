@@ -1,4 +1,4 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     title = lib.mkOption {
       description = "Window Title";
@@ -20,68 +20,68 @@
 
     autoResize = lib.mkOption {
       description = "Auto resize the window to the guest";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     allowResize = lib.mkOption {
       description = "Allow the window to be resized manually";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     keepAspect = lib.mkOption {
       description = "Maintain correct aspect ratio";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     forceAspect = lib.mkOption {
       description = "Force the window to maintain the aspect ratio";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     dontUpscale = lib.mkOption {
       description = "Never try to upscale the window";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     intUpscale = lib.mkOption {
       description = "Allow only integer upscaling";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     shrinkOnUpscale = lib.mkOption {
       description = "Limit the window dimensions when dontUpscale is enabled";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     borderless = lib.mkOption {
       description = "Borderless mode";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
     
     fullScreen = lib.mkOption {
       description = "Launch in fullscreen borderless mode";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     maximize = lib.mkOption {
       description = "Launch window maximized";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     minimizeOnFocusLoss = lib.mkOption {
       description = "Minimize window on focus loss";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     fpsMin = lib.mkOption {
@@ -92,38 +92,38 @@
 
     ignoreQuit = lib.mkOption {
       description = "Ignore requests to quit (i.e. Alt+F4)";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     noScreensaver = lib.mkOption {
       description = "Prevent the screensaver from starting";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     autoScreensaver = lib.mkOption {
       description = "Prevent the screensaver from starting when the guest requests it";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     alerts = lib.mkOption {
       description = "Show on screen alert messages";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     quickSplash = lib.mkOption {
       description = "Skip fading out the splash screen when a connection is established";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     overlayDimsDesktop = lib.mkOption {
       description = "Dim the desktop when in interactive overlay mode";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     rotate = lib.mkOption {
@@ -146,14 +146,14 @@
 
     jitRender = lib.mkOption {
       description = "Enable just-in-time rendering";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     showFPS = lib.mkOption {
       description = "Enable the FPS and UPS display";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
   };
 }

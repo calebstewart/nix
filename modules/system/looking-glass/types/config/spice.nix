@@ -1,9 +1,9 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     enable = lib.mkOption {
       description = "Enable the built-in SPICE client for input and/or clipboard support";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     host = lib.mkOption {
@@ -20,56 +20,56 @@
 
     input = lib.mkOption {
       description = "Use SPICE to send keyboard and mouse input events to the guest";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     clipboard = lib.mkOption {
       description = "Use SPICE to synchronize the clipboard contents with the guest";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     clipboardToVM = lib.mkOption {
       description = "Allow the clipboard to be synchronized TO the VM";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     clipboardToLocal = lib.mkOption {
       description = "Allow the clipbaord to be synchronized FROM the VM";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     audio = lib.mkOption {
       description = "Enable SPICE audio support";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     scaleCursor = lib.mkOption {
       description = "Scale cursor input position to screen size when up/down scaled";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     captureOnStart = lib.mkOption {
       description = "Capture mouse and keybaord on start";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     alwaysShowCursor = lib.mkOption {
       description = "Always show host cursor";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     showCursorDot = lib.mkOption {
       description = "Use a 'dot' cursor when the window does not have focus";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
   };
 }

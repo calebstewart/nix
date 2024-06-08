@@ -67,9 +67,9 @@ in {
         input.escapeKey = "KEY_RIGHTCTRL";
 
         win = {
-          fullScreen = "yes";
-          noScreensaver = "yes";
-          showFPS = "yes";
+          fullScreen = true;
+          noScreensaver = true;
+          showFPS = true;
         };
       };
     };

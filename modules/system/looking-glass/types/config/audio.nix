@@ -1,4 +1,4 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     periodSize = lib.mkOption {
       description = "Requested audio device period size in samples";
@@ -20,8 +20,8 @@
 
     micShowIndicator = lib.mkOption {
       description = "Display microphone usage indicator";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
   };
 }

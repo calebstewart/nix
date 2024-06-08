@@ -1,21 +1,21 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     grabKeyboard = lib.mkOption {
       description = "Grab the keybaord in capture mode";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     grabKeyboardOnFocus = lib.mkOption {
       description = "Grab the keyboard when focused";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     releaseKeysOnFocusLoss = lib.mkOption {
       description = "On focus loss, send key up events to guest for all held keys";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     escapeKey = lib.mkOption {
@@ -28,14 +28,14 @@
 
     ignoreWindowsKeys = lib.mkOption {
       description = "Do not pass events for the windows keys to the guest";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     hideCursor = lib.mkOption {
       description = "Hide the local mouse cursor";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     mouseSens = lib.mkOption {
@@ -46,32 +46,32 @@
 
     mouseSmoothing = lib.mkOption {
       description = "Apply simple mouse smoothing when rawMouse is not in use";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     rawMouse = lib.mkOption {
       description = "Use RAW mouse input when in capture mode (good for gaming)";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     mouseRedraw = lib.mkOption {
       description = "Mouse movements trigger redraws (ignore FPS minimum)";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     autoCapture = lib.mkOption {
       description = "Try to keep the mouse captured when needed";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     captureOnly = lib.mkOption {
       description = "Only enable input via SPICE if in capture mode";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     helpMenuDelay = lib.mkOption {

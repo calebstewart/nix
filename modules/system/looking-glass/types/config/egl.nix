@@ -1,21 +1,21 @@
-{lib, typeYesNo, ...}: {
+{lib, ...}: {
   options = {
     vsync = lib.mkOption {
       description = "Enable vsync";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     doubleBuffer = lib.mkOption {
       description = "Enable double buffering";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     multiSample = lib.mkOption {
       description = "Enable multisampling";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
 
     nvGainMax = lib.mkOption {
@@ -44,26 +44,26 @@
 
     debug = lib.mkOption {
       description = "Enable debug output";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     noBufferAge = lib.mkOption {
       description = "Disable partial rendering based on buffer age";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     noSwapDamage = lib.mkOption {
       description = "Disable swapping with damage";
-      default = "no";
-      type = typeYesNo;
+      default = false;
+      type = lib.types.bool;
     };
 
     scalePointer = lib.mkOption {
       description = "Keep the pointer size 1:1 when downscaling";
-      default = "yes";
-      type = typeYesNo;
+      default = true;
+      type = lib.types.bool;
     };
   };
 }
