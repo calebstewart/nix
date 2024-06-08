@@ -55,6 +55,19 @@ in {
         default = 32;
         type = lib.types.ints.positive;
       };
+
+      # This option should normally be left as true, but it will add a block to
+      # virtualisation.libvirtd.qemu.verbatimConfig which will set the
+      # 'cgroup_device_acl' setting to the standard list of devices along with
+      # /dev/kvmfr0. This is normally what you want, but if you already have
+      # a custom setting for this field, then you should disable this option,
+      # ensure you add /dev/kvmfr0 yourself elsewhere otherwise your VM will
+      # fail to start with a Permission Denied error.
+      configureLibvirtCgroupACLs = lib.mkOption {
+        description = "Whether to set the 'cgroup_device_acl' configuration for libvirt to allow kvmfr access";
+        default = true;
+        type = lib.types.bool;
+      };
     };
 
     # Options for creating the /dev/shm shared memory file
@@ -84,6 +97,8 @@ in {
   config = lib.mkIf cfg.enable {
     # Install looking glass
     environment.systemPackages = [cfg.package];
+
+    # Optionally install the kvmfr kernel module
     boot.extraModulePackages = lib.lists.optional cfg.kvmfr.enable cfg.kvmfr.package;
 
     # Create the configuration file if requested
@@ -124,5 +139,26 @@ in {
     systemd.tmpfiles.rules = lib.lists.optional cfg.shm.enable ''
       f /dev/shm/${cfg.shm.name} 0660 ${cfg.shm.owner} qemu-libvirtd -
     '';
+
+    # Allow access to the kvmfr device from the libvirt cgroups
+    virtualisation.libvirtd.qemu.verbatimConfig = lib.strings.optionalString (cfg.kvmfr.enable && cfg.kvmfr.configureLibvirtCgroupACLs) ''
+      cgroup_device_acl = [
+        "/dev/null", "/dev/full", "/dev/zero",
+        "/dev/random", "/dev/urandom",
+        "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+        "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+        "/dev/kvmfr0"
+      ]
+    '';
+
+    # Add libvirt-qemu apparmor policy allowing rw access to kvmfr device
+    security.apparmor.packages = lib.lists.optional (cfg.kvmfr.enable && config.security.apparmor.enable) (pkgs.writeTextFile {
+      name = "libvirt-qemu-apparmor";
+      destination = "/etc/apparmor.d/local/abstractions/libvirt-qemu";
+      text = ''
+        # Looking Glass
+        /dev/kvmfr0 rw,
+      '';
+    });
   };
 }
