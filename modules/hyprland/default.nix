@@ -5,7 +5,9 @@ let
   modifier = "SUPER";
   terminal = "alacritty";
 
-  menu_command = "rofi -show drun -theme $HOME/.config/rofi/launcher.rasi";
+  rofi_theme = "$HOME/.config/rofi/launcher.rasi";
+  menu_command = "rofi -show drun -theme ${rofi_theme}";
+  libvirt_menu = "rofi -show libvirt -theme ${rofi_theme} -modes libvirt:${inputs.rofi-libvirt-mode.packages.${pkgs.system}.default}/bin/rofi-libvirt-mode";
   screenshot_command = "grimblast copy area --notify";
   printscreen_command = "grimblast copy output --notify";
 
@@ -143,11 +145,17 @@ in {
           "${modifier}, Backspace, exec, ${pkgs.swaylock-effects}/bin/swaylock -f"
           "${modifier}, U, exec, uuidgen | wl-copy"
           "${modifier} SHIFT, F, fullscreen"
+          "${modifier}, M, exec, ${libvirt_menu}"
           
           "${modifier}, h, movefocus, l"
           "${modifier}, l, movefocus, r"
           "${modifier}, k, movefocus, u"
           "${modifier}, j, movefocus, d"
+
+          "${modifier} SHIFT, h, movewindow, l"
+          "${modifier} SHIFT, l, movewindow, r"
+          "${modifier} SHIFT, k, movewindow, u"
+          "${modifier} SHIFT, j, movewindow, d"
 
           "${modifier}, 1, split:workspace, 1"
           "${modifier}, 2, split:workspace, 2"

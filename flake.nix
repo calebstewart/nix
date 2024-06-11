@@ -34,6 +34,11 @@
       url = "github:calebstewart/any-nix-shell/add-nix-develop-support";
       flake = false;
     };
+
+    rofi-libvirt-mode = {
+      url = "github:calebstewart/rofi-libvirt-mode?ref=d8d4387410606570f6cc5853cad4566dc3738834";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {home-manager, nur, ... }@inputs:
