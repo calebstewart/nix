@@ -75,6 +75,11 @@
 
   home.sessionVariables = {
     GOPRIVATE="github.com/huntresslabs";
+    LIBVIRT_DEFAULT_URI="qemu:///system";
+  };
+
+  systemd.user.sessionVariables = {
+    LIBVIRT_DEFAULT_URI="qemu:///system";
   };
 
   home.packages = with pkgs; [
@@ -94,8 +99,9 @@
     zip
     unzip
     file
+    aws-vault
+    awscli
   ];
-
 
   # Override the pwvucontrol desktop file to give a better name
   # and provide an icon.
