@@ -101,6 +101,7 @@
     file
     aws-vault
     awscli
+    wireguard-tools
   ];
 
   # Override the pwvucontrol desktop file to give a better name
