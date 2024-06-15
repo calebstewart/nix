@@ -1,24 +1,32 @@
 {
-  description = "A very basic flake";
+  description = "Personal NixOS / Home-Manager / Nix-Darwin Modules";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nix-colors.url = "github:misterio77/nix-colors";
+    nur.url = "github:nix-community/NUR";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # FIXME: Replace this after this PR is in nixos-unstable: https://nixpk.gs/pr-tracker.html?pr=319882
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-colors.url = "github:misterio77/nix-colors";
-    nur.url = "github:nix-community/NUR";
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
     nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
 
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
@@ -41,7 +49,7 @@
     };
   };
 
-  outputs = {home-manager, nur, ... }@inputs:
+  outputs = {home-manager, hyprland, ...}@inputs:
   let
     user = {
       name = "caleb";
@@ -55,87 +63,92 @@
       };
     };
 
-    # Function to uniformly define a system based on it's hostname and
-    # platform name.
-    makeSystem = {hostname, system, user}:
-      inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
+    # Uniformly define a NixOS system configuration w/ home-manager
+    makeNixOSSystem = {hostname, system, user}: inputs.nixpkgs.lib.nixosSystem {
+      inherit system;
 
-        modules = [
-          {
-            networking.hostName = hostname;
-            nixpkgs.overlays = import ./overlays {
-              inherit inputs;
-              inherit system;
-            };
-          }
-          inputs.hyprland.nixosModules.default
-          ./modules/system/configuration.nix
-          (./. + "/hosts/${hostname}/hardware-configuration.nix")
-          (./. + "/hosts/${hostname}/configuration.nix")
-        ];
-
-        specialArgs = {
-          inherit inputs;
-          inherit user;
-          inherit system;
-        };
-      };
-
-    makeHome = {hostname, system, user}:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-
-          config = {
-            allowUnfree = true;
+      modules = [
+        {
+          networking.hostName = hostname;
+          nixpkgs.overlays = import ./overlays {
+            inherit inputs;
+            inherit system;
           };
-        };
+        }
+        hyprland.nixosModules.default
+        ./modules/system/configuration.nix
+        (./. + "/hosts/${hostname}/hardware-configuration.nix")
+        (./. + "/hosts/${hostname}/configuration.nix")
+        home-manager.nixosModules.home-manager {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
 
-        extraSpecialArgs = {
-          inherit inputs;
-          inherit system;
-          inherit user;
-        };
-
-        modules = [
-          {
-            nixpkgs.overlays = import ./overlays {
+            extraSpecialArgs = {
               inherit inputs;
               inherit system;
+              inherit user;
             };
-            home.username = user.name;
-            home.homeDirectory = inputs.nixpkgs.lib.mkDefault "/home/${user.name}";
-          }
-          inputs.hyprland.homeManagerModules.default
-          (./. + "/hosts/${hostname}/user.nix")
-        ];
+          };
+        }
+      ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit system;
+        inherit user;
       };
+    };
+
+    # Uniformly define a Nix Darwin system configuration w/ home-manager
+    makeNixDarwinSystem = {hostname, system, user}: inputs.nix-darwin.lib.darwinSystem {
+      inherit system;
+
+      modules = [
+        {
+          networking.hostName = hostname;
+          nixpkgs.overlays = import ./overlays {
+            inherit inputs;
+            inherit system;
+          };
+        }
+        ./modules/system/configuration.nix
+        (./. + "/hosts/${hostname}/configuration.nix")
+        home-manager.darwinModules.home-manager {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
+
+            extraSpecialArgs = {
+              inherit inputs;
+              inherit system;
+              inherit user;
+            };
+          };
+        }
+      ];
+    };
   in {
     nixosConfigurations = {
-      framework16 = makeSystem {
+      framework16 = makeNixOSSystem {
         inherit user;
         hostname = "framework16";
         system = "x86_64-linux";
       };
-      ryzen = makeSystem {
+      ryzen = makeNixOSSystem {
         inherit user;
         hostname = "ryzen";
         system = "x86_64-linux";
       };
     };
 
-    homeConfigurations = {
-      "${user.name}@framework16" = makeHome {
+    darwinConfigurations = {
+      huntress = makeNixDarwinSystem {
         inherit user;
-        hostname = "framework16";
-        system = "x86_64-linux";
-      };
-
-      "${user.name}@ryzen" = makeHome {
-        inherit user;
-        hostname = "ryzen";
-        system = "x86_64-linux";
+        hostname = "huntress";
+        system = "aarch64-darwin";
       };
     };
   };
