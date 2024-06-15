@@ -1,4 +1,4 @@
-{lib, config, pkgs, ...}:
+{lib, config, pkgs, inputs, ...}:
 let
   cfg = config.modules.neovim;
   mkIf = lib.mkIf;
@@ -6,7 +6,10 @@ let
 in {
   options.modules.neovim = {enable = mkEnableOption "neovim";};
 
+  imports = [inputs.nixvim.homeManagerModules.nixvim];
+
   config = mkIf cfg.enable {
+
     programs.nixvim = {
       enable = true;
       defaultEditor = true;

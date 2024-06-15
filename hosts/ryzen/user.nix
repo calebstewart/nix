@@ -31,6 +31,7 @@ in
     wofi.enable = false;
     rofi.enable = true;
     obs.enable = true;
+    pipewire.enable = true;
 
     hyprland = {
       enable = true;

@@ -26,7 +26,10 @@ in {
     };
   };
 
+  imports = [inputs.hyprland.homeManagerModules.default];
+
   config = lib.mkIf cfg.enable {
+
     home.packages = with pkgs; [
       swaybg
       wl-clipboard
@@ -312,6 +315,42 @@ in {
       # '';
     };
 
+
+    gtk = {
+      enable = true;
+
+      cursorTheme = {
+        name = "Numix-Cursor";
+        package = pkgs.numix-cursor-theme;
+      };
+
+      theme = {
+        name = "Numix";
+        package = pkgs.numix-gtk-theme;
+      };
+      
+      iconTheme = {
+        name = "Numix";
+        package = pkgs.numix-icon-theme;
+      };
+    };
+
+    qt = {
+      enable = true;
+      platformTheme = "gtk";
+    };
+
+    home.pointerCursor = {
+      gtk.enable = true;
+
+      name = "Numix-Cursor";
+      package = pkgs.numix-cursor-theme;
+    };
+
     home.file.".config/hypr/wallpaper.jpg".source = ./spaceman.jpg;
+
+    # Ensure that the systemd session has access to home-manager session variables.
+    # This means that hyprland in turn has access to these variables.
+    systemd.user.sessionVariables = config.home.sessionVariables;
   };
 }
