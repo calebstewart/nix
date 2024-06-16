@@ -5,7 +5,7 @@
 
   config.modules = {
     # Graphical User Interface (GUI)
-    firefox.enable = true;
+    firefox.enable = false;
 
     # Command Line Interface (CLI)
     neovim.enable = true;
