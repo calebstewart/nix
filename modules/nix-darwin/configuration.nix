@@ -13,6 +13,7 @@
 
   # Allow installation of non-free packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   # Setup global nixos settings (mainly, enable flakes)
   nix = {
