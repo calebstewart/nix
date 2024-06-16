@@ -76,7 +76,7 @@
           };
         }
         hyprland.nixosModules.default
-        ./modules/system/configuration.nix
+        ./modules/system/nixos.nix
         (./. + "/hosts/${hostname}/hardware-configuration.nix")
         (./. + "/hosts/${hostname}/configuration.nix")
         home-manager.nixosModules.home-manager {
@@ -107,16 +107,13 @@
 
       modules = [
         {
-          services.nix-daemon.enable = true;
-          system.configurationRevision = self.rev or self.dirtyRev or null;
-          system.stateVersion = 4;
           networking.hostName = hostname;
           nixpkgs.overlays = import ./overlays {
             inherit inputs;
             inherit system;
           };
         }
-        ./modules/system/configuration.nix
+        ./modules/system/nix-darwin.nix
         (./. + "/hosts/${hostname}/configuration.nix")
         home-manager.darwinModules.home-manager {
           home-manager = {
