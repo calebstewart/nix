@@ -49,7 +49,7 @@
     };
   };
 
-  outputs = {home-manager, hyprland, ...}@inputs:
+  outputs = {self, home-manager, hyprland, ...}@inputs:
   let
     user = {
       name = "caleb";
@@ -107,6 +107,9 @@
 
       modules = [
         {
+          services.nix-daemon.enable = true;
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+          system.stateVersion = 4;
           networking.hostName = hostname;
           nixpkgs.overlays = import ./overlays {
             inherit inputs;
@@ -145,9 +148,9 @@
     };
 
     darwinConfigurations = {
-      huntress = makeNixDarwinSystem {
+      huntress-mbp = makeNixDarwinSystem {
         inherit user;
-        hostname = "huntress";
+        hostname = "huntress-mbp";
         system = "aarch64-darwin";
       };
     };

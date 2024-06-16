@@ -37,6 +37,7 @@ in {
     users.enable = true;
     time.enable = true;
     security.enable = true;
+    nh.enable = true;
 
     networking = {
       enable = true;

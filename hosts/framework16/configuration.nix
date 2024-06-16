@@ -14,6 +14,7 @@
     time.enable = true;
     security.enable = true;
     fingerprint.enable = true;
+    nh.enable = true;
 
     networking = {
       enable = true;

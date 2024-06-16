@@ -1,9 +1,6 @@
 {lib, config, user, pkgs, ...}:
 let
   cfg = config.modules.users;
-
-  networkGroups = if config.modules.networking.enable then ["networkmanager"] else [];
-  virtGroups = if config.modules.virtualisation.enable then ["libvirtd"] else [];
 in {
   options.modules.users = {
     enable = lib.mkEnableOption "users";
@@ -16,7 +13,11 @@ in {
     users.users.${user.name} = {
       description = user.fullName;
       isNormalUser = true;
-      extraGroups = ["wheel" "input" "podman" "docker"] ++ networkGroups ++ virtGroups;
+      extraGroups = ["wheel"] ++
+        lib.optional config.modules.networking.enable "networkmanager" ++
+        lib.optional config.modules.virtualisation.enable "libvirtd" ++
+        lib.optional config.modules.containers.enable "podman" ++
+        lib.optional config.modules.docker.enable "docker";
       createHome = true;
       shell = pkgs.zsh;
     };

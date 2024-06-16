@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{lib, config, pkgs, ...}:
 let
   cfg = config.modules.sound;
 in {
@@ -17,6 +17,15 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
+    };
+
+    programs.noisetorch = {
+      enable = true;
+
+      
+      package = pkgs.noisetorch.overrideAttrs (oldAttrs: {
+        GOFLAGS = oldAttrs.GOFLAGS ++ ["-tags=nucular_shiny"];
+      });
     };
   };
 }
