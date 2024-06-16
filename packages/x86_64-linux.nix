@@ -4,4 +4,5 @@
   vesktop
   remmina
   wireguard-tools
+  signal-desktop
 ]

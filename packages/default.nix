@@ -1,6 +1,5 @@
 # Generic packages for any system type
 {pkgs, ...}: with pkgs; [
-  signal-desktop
   slack
   zoom-us
   spotify
