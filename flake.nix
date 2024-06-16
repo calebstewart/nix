@@ -129,6 +129,12 @@
           };
         }
       ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit system;
+        inherit user;
+      };
     };
   in {
     nixosConfigurations = {

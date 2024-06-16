@@ -26,9 +26,7 @@
   # Setup our users
   users.users.${user.name} = {
     description = user.fullName;
-    isNormalUser = true;
-    extraGroups = ["wheel"];
-    createHome = true;
+    home = "/Users/${user.name}";
     shell = pkgs.zsh;
   };
 
