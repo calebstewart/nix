@@ -55,11 +55,11 @@ in {
         type = lib.types.str;
       };
 
-      package = lib.mkOption {
-        description = "Package providing the looking-glass KVM frame-relay kernel module";
-        default = config.boot.kernelPackages.kvmfr;
-        type = lib.types.package;
-      };
+      # package = lib.mkOption {
+      #   description = "Package providing the looking-glass KVM frame-relay kernel module";
+      #   default = config.boot.kernelPackages.kvmfr;
+      #   type = lib.types.package;
+      # };
 
       sizeMB = lib.mkOption {
         description = "Size (in megabytes) of the frame-relay device (see: https://looking-glass.io/docs/B6/install/#determining-memory)";
@@ -110,7 +110,7 @@ in {
     environment.systemPackages = [cfg.package];
 
     # Optionally install the kvmfr kernel module
-    boot.extraModulePackages = lib.lists.optional cfg.kvmfr.enable cfg.kvmfr.package;
+    boot.extraModulePackages = lib.lists.optional cfg.kvmfr.enable config.boot.kernelPackages.kvmfr;
 
     # Create the configuration file if requested
     environment.etc = {
