@@ -76,7 +76,7 @@
           };
         }
         hyprland.nixosModules.default
-        ./modules/system/nixos.nix
+        ./modules/nixos/configuration.nix
         (./. + "/hosts/${hostname}/hardware-configuration.nix")
         (./. + "/hosts/${hostname}/configuration.nix")
         home-manager.nixosModules.home-manager {
@@ -113,7 +113,7 @@
             inherit system;
           };
         }
-        ./modules/system/nix-darwin.nix
+        ./modules/nix-darwin/configuration.nix
         (./. + "/hosts/${hostname}/configuration.nix")
         home-manager.darwinModules.home-manager {
           home-manager = {

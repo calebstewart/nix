@@ -2,17 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, user, inputs, system, ... }:
+{ pkgs, user, lib, ... }:
 {
   # DO NOT MODIFY
   system.stateVersion = 4;
 
-  imports = [
-    ./sshd
-    ./users
-    ./time
-    ./docker
-  ];
+  imports = [];
 
   services.nix-daemon.enable = true;
 
@@ -23,6 +18,22 @@
   nix = {
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
+  };
+
+  # Enable system-wide zsh
+  programs.zsh.enable = true;
+
+  # Setup our users
+  users.users.${user.name} = {
+    description = user.fullName;
+    isNormalUser = true;
+    extraGroups = ["wheel"];
+    createHome = true;
+    shell = pkgs.zsh;
+  };
+
+  environment.variables = {
+    XDG_DATA_HOME = "$HOME/.local/share";
   };
 
 }
