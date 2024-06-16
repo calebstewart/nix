@@ -2,13 +2,14 @@
 let
   firefox = pkgs.stdenv.mkDerivation rec {
     pname = "firefox";
-    version = "123.0";
+    version = "127.0";
     sourceRoot = ".";
     phases = ["unpackPhase" "installPhase"];
 
-    src = pkgs.stdenv.fetchurl {
+    src = pkgs.fetchurl {
       name = "Firefox-${version}.dmg";
-      url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/127.0/mac/en-US/Firefox%20${version}.dmg";
+      url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/Firefox%20${version}.dmg";
+      sha256 = "sha256-PDDLyK4q0NxErDKiZshxvQhmyiwodrRkyGGTrl/+bm0=";
     };
 
     buildInputs = with pkgs; [
@@ -28,7 +29,8 @@ in {
   config = {
     modules = {
       # Graphical User Interface (GUI)
-      firefox.enable = false;
+      firefox.enable = true;
+      alacritty.enable = true;
 
       # Command Line Interface (CLI)
       neovim.enable = true;

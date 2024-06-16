@@ -12,6 +12,11 @@ in {
           opacity = 0.9;
           blur = true;
           dynamic_title = true;
+          decorations = "None";
+        };
+
+        font = {
+          normal.family = "JetBrainsMono Nerd Font Mono";
         };
 
         colors = with config.colorScheme.palette; {
