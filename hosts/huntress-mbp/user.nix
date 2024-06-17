@@ -31,6 +31,7 @@ in {
       # Graphical User Interface (GUI)
       firefox.enable = true;
       alacritty.enable = true;
+      sketchybar.enable = true;
 
       # Command Line Interface (CLI)
       neovim.enable = true;

@@ -19,6 +19,7 @@
     ./rofi
     ./obs
     ./pipewire
+    ./sketchybar
 
     # Command Line Interface (CLI)
     ./neovim
