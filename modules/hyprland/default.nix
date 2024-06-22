@@ -53,7 +53,7 @@ in {
         "$mod" = modifier;
 
         monitor = [",preferred,auto,1"] ++ cfg.monitors;
-        master.new_is_master = true;
+        # master.new_is_master = true;
         gestures.workspace_swipe = true;
 
         misc = {

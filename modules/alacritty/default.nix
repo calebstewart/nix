@@ -20,6 +20,8 @@ in {
         };
 
         colors = with config.colorScheme.palette; {
+          transparent_background_colors = true;
+
           primary = {
             background = "#${base00}";
             foreground = "#${base05}";

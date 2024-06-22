@@ -2,10 +2,14 @@
   description = "Personal NixOS / Home-Manager / Nix-Darwin Modules";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "path:/home/caleb/git/nikstur-nixpkgs";
+    # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # nikstur-nixpkgs.url = "github:nikstur/nixpkgs?ref=systemd-256";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    nix-std.url = "github:chessai/nix-std";
+
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -49,7 +53,7 @@
     };
   };
 
-  outputs = {self, home-manager, hyprland, ...}@inputs:
+  outputs = {self, home-manager, hyprland, nix-std, ...}@inputs:
   let
     user = {
       name = "caleb";
@@ -62,6 +66,8 @@
         };
       };
     };
+
+    std = nix-std.lib;
 
     # Uniformly define a NixOS system configuration w/ home-manager
     makeNixOSSystem = {hostname, system, user}: inputs.nixpkgs.lib.nixosSystem {
@@ -89,6 +95,7 @@
               inherit inputs;
               inherit system;
               inherit user;
+              inherit std;
             };
           };
         }
@@ -98,6 +105,7 @@
         inherit inputs;
         inherit system;
         inherit user;
+        inherit std;
       };
     };
 
@@ -125,6 +133,7 @@
               inherit inputs;
               inherit system;
               inherit user;
+              inherit std;
             };
           };
         }
@@ -134,6 +143,7 @@
         inherit inputs;
         inherit system;
         inherit user;
+        inherit std;
       };
     };
   in {
