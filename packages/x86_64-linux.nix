@@ -5,4 +5,5 @@
   remmina
   wireguard-tools
   signal-desktop
+  pv
 ]
