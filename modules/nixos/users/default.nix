@@ -13,7 +13,7 @@ in {
     users.users.${user.name} = {
       description = user.fullName;
       isNormalUser = true;
-      extraGroups = ["wheel"] ++
+      extraGroups = ["wheel" "dialout"] ++
         lib.optional config.modules.networking.enable "networkmanager" ++
         lib.optional config.modules.virtualisation.enable "libvirtd" ++
         lib.optional config.modules.containers.enable "podman" ++
