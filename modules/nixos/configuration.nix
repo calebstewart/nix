@@ -38,7 +38,5 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="239a", MODE="0666"
     SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", MODE="0666"
   '';
-
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 }
 

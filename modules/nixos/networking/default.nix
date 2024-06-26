@@ -10,7 +10,7 @@ in {
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     networking.networkmanager.enable = true;
     hardware.bluetooth.enable = cfg.enableBluetooth;
 
