@@ -32,5 +32,13 @@
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
   };
+
+  services.udev.extraRules = ''
+    ATTRS{idVendor}=="239a", ENV{ID_MM_DEVICE_IGNORE}="1"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="239a", MODE="0666"
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", MODE="0666"
+  '';
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 }
 
