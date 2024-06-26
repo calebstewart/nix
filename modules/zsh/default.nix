@@ -63,7 +63,7 @@ in {
               style = "plain";
               foreground = "yellow";
               background = "transparent";
-              template = "{{ .FormattedMs }}";
+              template = "⏱ {{ .FormattedMs }}";
               properties.threshold = 5000;
             }
           ];
