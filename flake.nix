@@ -2,8 +2,7 @@
   description = "Personal NixOS / Home-Manager / Nix-Darwin Modules";
 
   inputs = {
-    nixpkgs.url = "path:/home/caleb/git/nikstur-nixpkgs";
-    # nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
     # nikstur-nixpkgs.url = "github:nikstur/nixpkgs?ref=systemd-256";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
