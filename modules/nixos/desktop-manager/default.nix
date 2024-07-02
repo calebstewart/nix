@@ -60,7 +60,6 @@ in {
 
     hardware.opengl = {
       enable = true;
-      driSupport = true;
     };
 
     security.pam.services.swaylock = {

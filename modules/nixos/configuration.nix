@@ -3,7 +3,9 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { pkgs, user, inputs, system, ... }:
-{
+let
+  probe-rs-rules = pkgs.writeTextDir "etc/udev/rules.d/69-probe-rs.rules" (builtins.readFile ./69-probe-rs.rules);
+in {
   # DO NOT MODIFY
   system.stateVersion = "23.11";
 
@@ -33,11 +35,15 @@
     settings.experimental-features = ["nix-command" "flakes"];
   };
 
+  services.udev.packages = [probe-rs-rules];
+
   services.udev.extraRules = ''
     ATTRS{idVendor}=="239a", ENV{ID_MM_DEVICE_IGNORE}="1"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="239a", MODE="0666"
     SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", MODE="0666"
   '';
+
+  services.geoclue2.enable = true;
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 

@@ -216,6 +216,11 @@ in {
       };
     };
 
+    services.gammastep = {
+      enable = true;
+      provider = "geoclue2";
+    };
+
     services.hyprpaper = {
       enable = true;
 

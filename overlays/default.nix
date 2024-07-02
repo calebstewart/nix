@@ -6,7 +6,4 @@ in [
   # (final: prev: with nikstur-pkgs; {
   #   systemd = systemd;
   # })
-  (final: prev: {
-    openldap = prev.openldap.overrideAttrs (_: { doCheck = false; });
-  })
 ]
