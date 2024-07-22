@@ -3,7 +3,11 @@
 # system-level settings outside of home-manager in way specific to a host while not polluting
 # hardware-configuration.nix. Generally, this should just set configuration options for modules
 # under modules/system/*/default.nix.
-{config, ...}: {
+{config, inputs, ...}: {
+  imports = [
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
+  ];
+
   config.modules = {
     systemd-boot.enable = true;
     virtualisation.enable = true;

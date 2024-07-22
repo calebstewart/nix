@@ -9,9 +9,13 @@
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     nix-std.url = "github:chessai/nix-std";
 
-
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware = {
+      url = "github:nixos/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
