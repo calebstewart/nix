@@ -138,6 +138,7 @@ in {
           pyright.enable = true;
           clangd.enable = true;
           rust-analyzer.enable = true;
+          terraformls.enable = true;
         };
 
         keymaps.extra = [
