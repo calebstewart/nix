@@ -20,6 +20,9 @@ in {
       };
 
       protectKernelImage = true;
+
+      # Allow hyprlock to unlock the system
+      pam.services.hyprlock = {};
     };
   };
 }

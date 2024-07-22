@@ -145,7 +145,7 @@ in {
           "${modifier}, V, togglesplit,"
           "${modifier} SHIFT, R, exec, ${screenshot_command}"
           "${modifier} SHIFT, P, exec, ${printscreen_command}"
-          "${modifier}, Backspace, exec, ${pkgs.swaylock-effects}/bin/swaylock -f"
+          "${modifier}, Backspace, exec, loginctl lock-session"
           "${modifier}, U, exec, uuidgen | wl-copy"
           "${modifier} SHIFT, F, fullscreen"
           "${modifier}, M, exec, ${libvirt_menu}"
@@ -192,35 +192,55 @@ in {
     # write configurations here.
     home.file.".config/hypr/config.d/00-empty.conf".text = "";
 
-    services.swayidle = {
+    # Configure the idle service to automatically lock the session and turn off the
+    # display when left idle. These timeouts are aggressive as hell (60 seconds of
+    # inactivity to full display off), but that's how I like it. Full screen windows
+    # like video players will inhibit the idle, and if I'm not watching a video,
+    # I'm almost certainly interacting with my computer.
+    services.hypridle = {
       enable = true;
 
-      events = [
-        { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-        # { event = "after-resume"; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on"; }
-      ];
+      settings = {
+        general = {
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          before_sleep_cmd = "loginctl lock-session";
+          lock_cmd = "pidof hyprlock || hyprlock";
+        };
 
-      timeouts = [
-        { timeout = 300; command = "${pkgs.swaylock-effects}/bin/swaylock -f"; }
-        # { timeout = 315; command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off"; }
-      ];
-    };
-
-    services.wlsunset = {
-      enable = true;
-      sunrise = "07:00";
-      sunset = "17:00";
-      temperature = {
-        day = 6500;
-        night = 4000;
+        listener = [
+          {
+            # timeout = 150;
+            timeout = 30;
+            on-timeout = "brightnessctl --save set 10";
+            on-resume = "brightnessctl --restore";
+          }
+          {
+            # timeout = 300;
+            timeout = 45;
+            on-timeout = "loginctl lock-session";
+          }
+          {
+            # timeout = 330;
+            timeout = 60;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
       };
     };
 
+    # Gammastep is my preferred gamma correction service. However, it causes flickering
+    # for some reason, and I can't diagnose it. wlsunset will technically work, but
+    # it switches abruptly with no fade, and I hate that a lot. So much in fact that
+    # I'm willing to forego all gamma correction until I can get gammastep to work. :(
     services.gammastep = {
-      enable = true;
-      provider = "geoclue2";
+      enable = false;
+      provider = "manual";
+      latitude = 38.907908091478724;
+      longitude = -77.03843737519826;
     };
 
+    # Hyprpaper manages the desktop background
     services.hyprpaper = {
       enable = true;
 
@@ -234,42 +254,62 @@ in {
       };
     };
 
-    programs.swaylock = {
+    # Configure the lock screen
+    programs.hyprlock = {
       enable = true;
-      package = pkgs.swaylock-effects;
 
-      settings = with config.colorScheme.palette; {
-        screenshots = true;
-        fade-in = 1;
-        effect-pixelate = 20;
-        effect-scale = 0.5;
+      settings = {
+        general = {
+          disable_loading_bar = true;
+          grace = 5;
+        };
 
-        inside-color = "${base00}";
-        inside-clear-color = "${base0D}";
-        inside-caps-lock-color = "${base09}";
-        inside-ver-color = "${base0A}";
-        inside-wrong-color = "${base08}";
-        
-        line-color = "${base01}";
-        line-clear-color = "${base01}";
-        line-caps-lock-color = "${base01}";
-        line-ver-color = "${base01}";
-        line-wrong-color = "${base01}";
+        background = [{
+          # path = "/home/${user.name}/.config/hypr/wallpaper.jpg";
+          path = "screenshot";
+          blur_passes = 3;
+          blur_size = 8;
+        }];
 
-        ring-color = "${base02}";
-        ring-clear-color = "${base02}";
-        ring-caps-lock-color = "${base02}";
-        ring-ver-color = "${base02}";
-        ring-wrong-color = "${base02}";
+        input-field = with config.colorScheme.palette; [{
+          size = "250, 60";
+          outline_thickness = 4;
+          dots_size = 0.2;
+          dots_spacing = 0.15;
+          dots_center = true;
+          outer_color = "rgb(${base02})";
+          inner_color = "rgb(${base00})";
+          font_color = "rgb(${base05})";
+          check_color = "rgb(${base0A})";
+          fail_color = "rgb(${base08})";
+          capslock_color = "rgb(${base09})";
+          bothlock_color = "rgb(${base09})";
+          numlock_color = -1;
+          swap_font_color = false;
+          fail_text = ''<i>$FAIL <b>($ATTEMPTS)</b></i>'';
+          fail_transition = 500;
+          fade_on_empty = true;
+          font_family = "JetBrains Mono Nerd Font Mono";
+          placeholder_text = ''<i><span foreground="##${base06}">Password...</span></i>'';
+          hide_input = false;
+          position = "0, -120";
+          halign = "center";
+          valign = "center";
+        }];
 
-        text-color = "${base05}";
-        text-clear-color = "${base06}";
-        text-caps-lock-color = "${base05}";
-        text-ver-color = "${base04}";
-        text-wrong-color = "${base06}";
-
-        key-hl-color = "${base0F}";
-        bs-hl-color = "${base0E}";
+        label = with config.colorScheme.palette; [
+          {
+            text = ''cmd[update:1000] date +"%H:%M"'';
+            color = "rgb(${base05})";
+            font_size = 120;
+            font_family = "JetBrains Mono Nerd Font Mono ExtraBold";
+            position = "0, -300";
+            halign = "center";
+            valign = "top";
+            shadow_passes = 3;
+            shadow_size = 8;
+          }
+        ];
       };
     };
 
@@ -279,7 +319,7 @@ in {
       layout = [
         {
           label = "lock";
-          action = "${pkgs.swaylock-effects}/bin/swaylock -f";
+          action = "loginctl lock-session";
           text = "Lock Screen";
           keybind = "l";
         }
