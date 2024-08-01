@@ -26,8 +26,6 @@ in {
     };
   };
 
-  imports = [inputs.hyprland.homeManagerModules.default];
-
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
@@ -43,10 +41,9 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
 
-      plugins = [
-        inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+      plugins = with pkgs.hyprlandPlugins; [
+        hyprsplit
       ];
 
       settings = {

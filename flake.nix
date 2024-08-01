@@ -6,7 +6,6 @@
     # nikstur-nixpkgs.url = "github:nikstur/nixpkgs?ref=systemd-256";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     nix-std.url = "github:chessai/nix-std";
 
     nix-darwin = {
@@ -36,7 +35,7 @@
 
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
+      flake = false;
     };
 
     vfio-hooks = {
@@ -56,7 +55,7 @@
     };
   };
 
-  outputs = {self, home-manager, hyprland, nix-std, ...}@inputs:
+  outputs = {self, home-manager, nix-std, ...}@inputs:
   let
     user = {
       name = "caleb";
@@ -84,7 +83,6 @@
             inherit system;
           };
         }
-        hyprland.nixosModules.default
         ./modules/nixos/configuration.nix
         (./. + "/hosts/${hostname}/hardware-configuration.nix")
         (./. + "/hosts/${hostname}/configuration.nix")

@@ -16,11 +16,11 @@ in {
         push.autoSetupRemote = true;
         gpg.format = "ssh";
 
-        url = {
-          "git@github.com:" = {
-            insteadOf = "https://github.com/";
-          };
-        };
+        # url = {
+        #   "git@github.com:" = {
+        #     insteadOf = "https://github.com/";
+        #   };
+        # };
       };
 
       includes = lib.attrsets.mapAttrsToList (name: alias: {

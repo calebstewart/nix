@@ -39,19 +39,16 @@ in {
       configPackages = with pkgs; [
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
-        inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland
+        xdg-desktop-portal-hyprland
       ];
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
-        inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland
+        xdg-desktop-portal-hyprland
       ];
     };
 
-    programs.hyprland = {
-      enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    };
+    programs.hyprland.enable = true;
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
