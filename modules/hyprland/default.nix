@@ -4,12 +4,41 @@ let
 
   modifier = "SUPER";
   terminal = "alacritty";
+  floating_term_class = "floating-term";
 
   rofi_theme = "$HOME/.config/rofi/launcher.rasi";
   menu_command = "rofi -show drun -theme ${rofi_theme}";
   libvirt_menu = "rofi -show libvirt -theme ${rofi_theme} -modes libvirt:${inputs.rofi-libvirt-mode.packages.${pkgs.system}.default}/bin/rofi-libvirt-mode";
   screenshot_command = "grimblast copy area --notify";
   printscreen_command = "grimblast copy output --notify";
+
+  toggleSpecial = {class, command, specialWorkspace, runtimeInputs}: pkgs.writeShellApplication {
+    name = "toggle";
+    runtimeInputs = [pkgs.jq pkgs.hyprland] ++ runtimeInputs;
+
+    text = ''
+      existing=$(hyprctl clients -j | jq -r '.[] | select(.class == "${class}") | .address' && true)
+      if [ -z "$existing" ]; then
+        ${command}
+      else
+        hyprctl dispatch togglespecialworkspace "${specialWorkspace}"
+      fi
+    '';
+  };
+
+  toggleFloatTerm = toggleSpecial rec {
+    specialWorkspace = "shell";
+    class = "${floating_term_class}:shell";
+    command = "exec alacritty --class ${class}";
+    runtimeInputs = with pkgs; [ alacritty ];
+  };
+
+  togglePythonTerm = toggleSpecial rec {
+    specialWorkspace = "python";
+    class = "${floating_term_class}:python";
+    command = ''exec alacritty --class "${class}" -e python'';
+    runtimeInputs = with pkgs; [ alacritty python312 ];
+  };
 
   mkBinding = {extraModifier ? "", key, executor ? "exec", command ? ""}:
     "${modifier} ${extraModifier}, ${key}, ${executor}, ${command}";
@@ -106,6 +135,7 @@ in {
             "fade, 1, 7, default"
             "workspaces, 1, 6, default"
             "layers, 1, 7, default, slide"
+            "specialWorkspace, 1, 6, default, slidefadevert -20%"
           ];
         };
 
@@ -130,6 +160,16 @@ in {
           "pin,class:(polkit-gnome-authentication-agent-1)"
           "stayfocused,class:(polkit-gnome-authentication-agent-1)"
           "animation slide top,class:(polkit-gnome-authentication-agent-1)"
+
+          "float,class:^(${floating_term_class})"
+          "move 33% 2%,class:^(${floating_term_class})"
+          "size 33% 25%,class:^(${floating_term_class})"
+          "opacity 0.98,class:^(${floating_term_class})"
+          "stayfocused,class:^(${floating_term_class})"
+          "animation slide top,class:^(${floating_term_class})"
+
+          "workspace special:shell,class:^(${floating_term_class}:shell)$"
+          "workspace special:python,class:^(${floating_term_class}:python)$"
         ];
 
         bind = [
@@ -138,7 +178,6 @@ in {
           "${modifier} SHIFT, E, exec, ${pkgs.wlogout}/bin/wlogout"
           "${modifier} SHIFT, Space, togglefloating,"
           "${modifier}, D, exec, ${menu_command}"
-          "${modifier}, P, pseudo,"
           "${modifier}, V, togglesplit,"
           "${modifier} SHIFT, R, exec, ${screenshot_command}"
           "${modifier} SHIFT, P, exec, ${printscreen_command}"
@@ -178,6 +217,13 @@ in {
           "${modifier} SHIFT, 8, split:movetoworkspace, 8"
           "${modifier} SHIFT, 9, split:movetoworkspace, 9"
           "${modifier} SHIFT, 0, split:movetoworkspace, 10"
+
+          "${modifier}, t, exec, ${toggleFloatTerm}/bin/toggle"
+          "${modifier}, p, exec, ${togglePythonTerm}/bin/toggle"
+        ];
+
+        bindm = [
+          "${modifier},mouse:272,movewindow"
         ];
 
         source = "~/.config/hypr/config.d/*.conf";
