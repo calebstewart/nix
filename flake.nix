@@ -31,7 +31,7 @@
 
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
-    nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
+    nh-extra-privesc.url = "github:henriquekirchheck/nh/b6513832b39521e60349f2b2ab83cc8d5d28194e";
 
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
