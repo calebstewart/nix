@@ -156,10 +156,13 @@ in {
           "animation slide bottom,class:(showmethekey-gtk)"
 
           "float,class:(polkit-gnome-authentication-agent-1)"
-          "center,class:(polkit-gnome-authentication-agent-1)"
+          "move 37% 2%,class:(polkit-gnome-authentication-agent)"
+          "size 25% 10%,class:(polkit-gnome-authentication-agent)"
+          # "center,class:(polkit-gnome-authentication-agent-1)"
           "pin,class:(polkit-gnome-authentication-agent-1)"
           "stayfocused,class:(polkit-gnome-authentication-agent-1)"
           "animation slide top,class:(polkit-gnome-authentication-agent-1)"
+          "workspace special:polkit,class:(polkit-gnome-authentication-agent)"
 
           "float,class:^(${floating_term_class})"
           "move 33% 2%,class:^(${floating_term_class})"
