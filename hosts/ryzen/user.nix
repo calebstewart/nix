@@ -62,12 +62,29 @@ in
 
   config = {
     home.packages = with pkgs; [
+      # Install ZSA Keymapp for programmer my Moonlander keyboard
+      keymapp
+
       ghidra
       (cutter.withPlugins (ps: with ps; [
         jsdec
         rz-ghidra
         sigdb
       ]))
+      jd-gui
+      (jadx.overrideAttrs (old: {
+        nativeBuildInputs = [
+          gradle
+          jdk
+          imagemagick
+          makeBinaryWrapper
+          copyDesktopItems
+        ];
+
+        patches = [
+          ./jadx-no-native-deps.diff
+        ];
+      }))
     ];
   };
 }
