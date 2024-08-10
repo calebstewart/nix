@@ -426,18 +426,30 @@ in {
       enable = true;
 
       cursorTheme = {
-        name = "Numix-Cursor";
-        package = pkgs.numix-cursor-theme;
+        name = "catppuccin-mocha-dark-cursors";
+        package = pkgs.catppuccin-cursors.mochaDark;
       };
 
       theme = {
-        name = "Numix";
-        package = pkgs.numix-gtk-theme;
+        name = "catppuccin-mocha-blue-standard";
+        package = pkgs.catppuccin-gtk.override {
+          variant = "mocha";
+          accents = ["blue"];
+        };
       };
       
       iconTheme = {
-        name = "Numix";
-        package = pkgs.numix-icon-theme;
+        name = "Papirus";
+        package = pkgs.catppuccin-papirus-folders.override {
+          flavor = "mocha";
+          accent = "blue";
+        };
+      };
+    };
+
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
       };
     };
 
@@ -449,8 +461,8 @@ in {
     home.pointerCursor = {
       gtk.enable = true;
 
-      name = "Numix-Cursor";
-      package = pkgs.numix-cursor-theme;
+      name = "catppuccin-mocha-dark-cursors";
+      package = pkgs.catppuccin-cursors.mochaDark;
     };
 
     home.file.".config/hypr/wallpaper.jpg".source = ../../wallpapers/spaceman.jpg;
