@@ -1,4 +1,4 @@
-{config, lib, ...}:
+{config, lib, pkgs, ...}:
 let
   cfg = config.modules.systemd-boot;
 in {
@@ -9,5 +9,11 @@ in {
   config = lib.mkIf cfg.enable {
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
+
+    boot.plymouth = {
+      enable = true;
+      theme = "nixos-bgrt";
+      themePackages = with pkgs; [nixos-bgrt-plymouth];
+    };
   };
 }
