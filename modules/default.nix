@@ -52,4 +52,9 @@
   }) ++ (import (../packages + "/${pkgs.system}.nix") {
     inherit pkgs;
   });
+
+  programs.man = {
+    enable = true;
+    generateCaches = false;
+  };
 }

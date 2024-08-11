@@ -6,7 +6,6 @@
     # nikstur-nixpkgs.url = "github:nikstur/nixpkgs?ref=systemd-256";
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     nix-std.url = "github:chessai/nix-std";
 
     nix-darwin = {
@@ -32,11 +31,11 @@
 
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
-    nh-extra-privesc.url = "github:henriquekirchheck/nh/4afff0d675a78f5c10f8839ac5897eb167f07cff";
+    nh-extra-privesc.url = "github:henriquekirchheck/nh/b6513832b39521e60349f2b2ab83cc8d5d28194e";
 
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
+      flake = false;
     };
 
     vfio-hooks = {
@@ -56,7 +55,7 @@
     };
   };
 
-  outputs = {self, home-manager, hyprland, nix-std, ...}@inputs:
+  outputs = {self, home-manager, nix-std, ...}@inputs:
   let
     user = {
       name = "caleb";
@@ -73,7 +72,7 @@
     std = nix-std.lib;
 
     # Uniformly define a NixOS system configuration w/ home-manager
-    makeNixOSSystem = {hostname, system, user}: inputs.nixpkgs.lib.nixosSystem {
+    makeNixOSSystem = {hostname, system, user, path}: inputs.nixpkgs.lib.nixosSystem {
       inherit system;
 
       modules = [
@@ -84,15 +83,14 @@
             inherit system;
           };
         }
-        hyprland.nixosModules.default
         ./modules/nixos/configuration.nix
-        (./. + "/hosts/${hostname}/hardware-configuration.nix")
-        (./. + "/hosts/${hostname}/configuration.nix")
+        (./. + "${path}/hardware-configuration.nix")
+        (./. + "${path}/configuration.nix")
         home-manager.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
+            users.${user.name} = (./. + "${path}/user.nix");
 
             extraSpecialArgs = {
               inherit inputs;
@@ -111,6 +109,20 @@
         inherit std;
       };
     };
+
+    makeNixOSHost = {hostname, system, user}: makeNixOSSystem {
+      inherit hostname;
+      inherit system;
+      inherit user;
+      path = "/hosts/${hostname}";
+    };
+
+    makeNixOSVirtualMachine = {hostname, system, user}: (makeNixOSSystem {
+      inherit hostname;
+      inherit system;
+      inherit user;
+      path = "/vms/${hostname}";
+    }).config.system.build.vm;
 
     # Uniformly define a Nix Darwin system configuration w/ home-manager
     makeNixDarwinSystem = {hostname, system, user}: inputs.nix-darwin.lib.darwinSystem {
@@ -151,12 +163,12 @@
     };
   in {
     nixosConfigurations = {
-      framework16 = makeNixOSSystem {
+      framework16 = makeNixOSHost {
         inherit user;
         hostname = "framework16";
         system = "x86_64-linux";
       };
-      ryzen = makeNixOSSystem {
+      ryzen = makeNixOSHost {
         inherit user;
         hostname = "ryzen";
         system = "x86_64-linux";
@@ -169,6 +181,14 @@
         hostname = "huntress-mbp";
         system = "aarch64-darwin";
       };
+    };
+
+    vm = {
+      # Add keys here with makeNixOSVirtualMachine to create a VM image
+      # from this configuration. VM configurations are mostly the same
+      # as host configurations, but are stored in `vms/{hostname}/` and
+      # can be built using `nix build .#vms.hostname`. After building,
+      # you can run them with `./result/bin/run-{hostname}-vm`.
     };
   };
 }

@@ -1,4 +1,4 @@
-{ user, ...}:
+{ user, pkgs, ...}:
 let
   # Scaling factor to use for rendering for all monitors
   scaling_factor = 1.25;
@@ -38,9 +38,9 @@ in
       swap_escape = false; # We use a nice keyboard :)
       
       monitors = [
-        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,0x0,${builtins.toString scaling_factor}"
-        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,${builtins.toString scaled_resolution.width}x0,${builtins.toString scaling_factor}"
-        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,${builtins.toString (scaled_resolution.width*2)}x0,${builtins.toString scaling_factor}"
+        "desc:Dell Inc. DELL U2723QE 55L01P3,preferred,${builtins.toString scaled_resolution.width}x0,${builtins.toString scaling_factor}"
+        "desc:Dell Inc. DELL U2718Q 4K8X7974188L,preferred,${builtins.toString (scaled_resolution.width*2)}x0,${builtins.toString scaling_factor}"
+        "desc:Dell Inc. DELL U2723QE HXJ01P3,preferred,0x0,${builtins.toString scaling_factor}"
       ];
     };
 
@@ -58,5 +58,33 @@ in
     # System
     # xdg.enable = true;
     # packages.enable = true;
+  };
+
+  config = {
+    home.packages = with pkgs; [
+      # Install ZSA Keymapp for programmer my Moonlander keyboard
+      keymapp
+
+      ghidra
+      (cutter.withPlugins (ps: with ps; [
+        jsdec
+        rz-ghidra
+        sigdb
+      ]))
+      jd-gui
+      (jadx.overrideAttrs (old: {
+        nativeBuildInputs = [
+          gradle
+          jdk
+          imagemagick
+          makeBinaryWrapper
+          copyDesktopItems
+        ];
+
+        patches = [
+          ./jadx-no-native-deps.diff
+        ];
+      }))
+    ];
   };
 }

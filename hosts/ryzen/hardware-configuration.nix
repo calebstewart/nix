@@ -8,15 +8,19 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  boot.initrd.verbose = false;
   boot.initrd.systemd.enable = true;
   boot.initrd.services.lvm.enable = true;
   boot.initrd.supportedFilesystems = ["btrfs"];
   boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "ahci" "uas" "usbhid" "sd_mod" "amdgpu" "vfio-pci"];
   boot.initrd.kernelModules = [ "dm-snapshot" "vfio-pci" ];
+  boot.consoleLogLevel = 0;
   boot.kernelModules = [ "vfio-pci" "kvm-amd" ];
   boot.extraModulePackages = [];
 
   boot.kernelParams = [
+    "quiet"
+    "udev.log_level=3"
     "amd_iommu=on"
     "iommu=pt"
     "vfio-pci.ids=\"1002:744c\""

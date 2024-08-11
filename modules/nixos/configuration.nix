@@ -31,6 +31,7 @@ in {
 
   # Setup global nixos settings (mainly, enable flakes)
   nix = {
+    settings.trusted-users = ["root" user.name];
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
   };
@@ -43,10 +44,21 @@ in {
     SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", MODE="0666"
   '';
 
-  services.geoclue2.enable = true;
-
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   boot.tmp.cleanOnBoot = true;
+
+  programs.java = {
+    enable = true;
+    package = (pkgs.jdk21.override {
+      enableJavaFX = true;
+    });
+  };
+
+  documentation = {
+    enable = true;
+    man.enable = true;
+    man.generateCaches = true;
+  };
 }
 

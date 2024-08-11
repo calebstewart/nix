@@ -17,10 +17,7 @@ in {
 
         ovmf = {
           enable = true;
-          packages = [(pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          }).fd];
+          packages = with pkgs; [OVMFFull.fd];
         };
       };
     };
@@ -32,5 +29,11 @@ in {
     };
 
     programs.virt-manager.enable = true;
+
+    # Allow outbound connections from VMs to things like 8000, 8080,
+    # 9090 or 8443. These are normally temporary web servers or the like.
+    networking.firewall.interfaces."virbr0".allowedTCPPortRanges = [
+      { from = 8000; to = 10000; }
+    ];
   };
 }
