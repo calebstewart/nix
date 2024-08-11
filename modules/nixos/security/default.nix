@@ -19,7 +19,7 @@ in {
         }];
       };
 
-      protectKernelImage = true;
+      # protectKernelImage = true;
     };
   };
 }
