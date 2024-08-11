@@ -3,7 +3,7 @@
 # system-level settings outside of home-manager in way specific to a host while not polluting
 # hardware-configuration.nix. Generally, this should just set configuration options for modules
 # under modules/system/*/default.nix.
-{config, inputs, ...}: {
+{config, inputs, pkgs, ...}: {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
   ];
@@ -30,5 +30,19 @@
       enableCompose = true;
       dockerCompat = true;
     };
+  };
+
+  config = {
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
+    # Enabling this explicitly prevents hibernation by adding the
+    # 'nohibernate' kernel paramter.
+    security.protectKernelImage = false;
+
+    systemd.sleep.extraConfig = ''
+      AllowHybridSleep=yes
+      AllowSuspend=yes
+      AllowHibernate=yes
+    '';
   };
 }
