@@ -12,8 +12,12 @@ in {
 
     boot.plymouth = {
       enable = true;
-      theme = "nixos-bgrt";
-      themePackages = with pkgs; [nixos-bgrt-plymouth];
+      theme = "spin";
+      themePackages = [
+        (pkgs.adi1090x-plymouth-themes.override {
+          selected_themes = ["spin"];
+        })
+      ];
     };
   };
 }
