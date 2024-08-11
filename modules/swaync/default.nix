@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{lib, config, pkgs, ...}:
 let
   cfg = config.modules.swaync;
 in {
@@ -70,6 +70,14 @@ in {
           title.text = "Notifications";
           dnd.text = "Do Not Disturb";
           label.text = "Label Text";
+        };
+
+        scripts = let
+          play = sound: "${pkgs.sox}/bin/play --volume 0.5 ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/${sound}.oga";
+        in {
+          notification-sound = {
+            exec = play "message";
+          };
         };
       };
     };
