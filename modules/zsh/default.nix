@@ -120,6 +120,10 @@ in {
 
         # Initialize Oh-My-Posh prompt with above configuration
         eval "$(${pkgs.oh-my-posh}/bin/oh-my-posh init zsh --config "$HOME/.config/ohmyposh/config.toml")"
+
+        if [[ -t 0 && $- = *i* ]]; then
+          stty -ixon
+        fi
       '';
 
       plugins = [];
