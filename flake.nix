@@ -72,7 +72,7 @@
     std = nix-std.lib;
 
     # Uniformly define a NixOS system configuration w/ home-manager
-    makeNixOSSystem = {hostname, system, user}: inputs.nixpkgs.lib.nixosSystem {
+    makeNixOSSystem = {hostname, system, user, path}: inputs.nixpkgs.lib.nixosSystem {
       inherit system;
 
       modules = [
@@ -84,13 +84,13 @@
           };
         }
         ./modules/nixos/configuration.nix
-        (./. + "/hosts/${hostname}/hardware-configuration.nix")
-        (./. + "/hosts/${hostname}/configuration.nix")
+        (./. + "${path}/hardware-configuration.nix")
+        (./. + "${path}/configuration.nix")
         home-manager.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.${user.name} = (./. + "/hosts/${hostname}/user.nix");
+            users.${user.name} = (./. + "${path}/user.nix");
 
             extraSpecialArgs = {
               inherit inputs;
@@ -109,6 +109,20 @@
         inherit std;
       };
     };
+
+    makeNixOSHost = {hostname, system, user}: makeNixOSSystem {
+      inherit hostname;
+      inherit system;
+      inherit user;
+      path = "/hosts/${hostname}";
+    };
+
+    makeNixOSVirtualMachine = {hostname, system, user}: (makeNixOSSystem {
+      inherit hostname;
+      inherit system;
+      inherit user;
+      path = "/vms/${hostname}";
+    }).config.system.build.vm;
 
     # Uniformly define a Nix Darwin system configuration w/ home-manager
     makeNixDarwinSystem = {hostname, system, user}: inputs.nix-darwin.lib.darwinSystem {
@@ -149,12 +163,12 @@
     };
   in {
     nixosConfigurations = {
-      framework16 = makeNixOSSystem {
+      framework16 = makeNixOSHost {
         inherit user;
         hostname = "framework16";
         system = "x86_64-linux";
       };
-      ryzen = makeNixOSSystem {
+      ryzen = makeNixOSHost {
         inherit user;
         hostname = "ryzen";
         system = "x86_64-linux";
@@ -167,6 +181,14 @@
         hostname = "huntress-mbp";
         system = "aarch64-darwin";
       };
+    };
+
+    vm = {
+      # Add keys here with makeNixOSVirtualMachine to create a VM image
+      # from this configuration. VM configurations are mostly the same
+      # as host configurations, but are stored in `vms/{hostname}/` and
+      # can be built using `nix build .#vms.hostname`. After building,
+      # you can run them with `./result/bin/run-{hostname}-vm`.
     };
   };
 }
