@@ -75,4 +75,8 @@ in {
       };
     };
   };
+
+  config = {
+    nixpkgs.config.rocmSupport = true;
+  };
 }
