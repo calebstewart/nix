@@ -10,12 +10,14 @@
   man-pages
   man-pages-posix
   devenv
+  btop
+  gimp
+
   (retroarch.override {
     cores = with libretro; [
       mgba
     ];
   })
-  btop
 
   (writeShellScriptBin "run0" ''
     exec ${systemd}/bin/run0 --setenv=LOCALE_ARCHIVE $@
