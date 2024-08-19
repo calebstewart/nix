@@ -10,6 +10,5 @@
   aws-vault
   audacity
   nix-output-monitor
-  element-desktop
   gcc
 ]
