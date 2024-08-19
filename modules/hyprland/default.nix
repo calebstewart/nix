@@ -12,6 +12,13 @@ let
   screenshot_command = "grimblast copy area --notify";
   printscreen_command = "grimblast copy output --notify";
 
+  powermenu = pkgs.writeShellApplication {
+    name = "powermenu";
+    runtimeInputs = [pkgs.jq pkgs.hyprland pkgs.systemd];
+    text = builtins.readFile ./power-menu.sh;
+  };
+  powermenu_command = "rofi -show powermenu -theme ${rofi_theme} -modes powermenu:${powermenu}/bin/powermenu";
+
   toggleSpecial = {class, command, specialWorkspace, runtimeInputs}: pkgs.writeShellApplication {
     name = "toggle";
     runtimeInputs = [pkgs.jq pkgs.hyprland] ++ runtimeInputs;
@@ -192,7 +199,7 @@ in {
         bind = [
           "${modifier}, Return, exec, ${terminal}"
           "${modifier}, Q, killactive,"
-          "${modifier} SHIFT, E, exec, ${pkgs.wlogout}/bin/wlogout"
+          "${modifier} SHIFT, E, exec, ${powermenu_command}"
           "${modifier} SHIFT, Space, togglefloating,"
           "${modifier}, D, exec, ${menu_command}"
           "${modifier}, V, togglesplit,"
