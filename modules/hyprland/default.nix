@@ -381,6 +381,20 @@ in {
       };
     };
 
+    systemd.user.services.autologin-locker = {
+      Unit = {
+        Description = "Locks the session during initial bootup after auto-login from greetd";
+        After = ["waybar.service" "hyprpaper.service"];
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.hyprlock}/bin/hyprlock --immediate";
+      };
+
+      Install.WantedBy = ["hyprland-session.target"];
+    };
+
     programs.wlogout = {
       enable = true;
 

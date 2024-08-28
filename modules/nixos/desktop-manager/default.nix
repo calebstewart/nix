@@ -1,4 +1,4 @@
-{lib, config, pkgs, inputs, ...}:
+{lib, config, user, pkgs, inputs, ...}:
 let
   cfg = config.modules.desktop-manager;
 in {
@@ -10,7 +10,27 @@ in {
     services = {
       xserver = {
         enable = true;
-        displayManager.gdm.enable = true;
+        # displayManager.gdm.enable = true;
+      };
+
+      greetd = {
+        enable = true;
+        settings =
+        let 
+          tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+          # command = "${pkgs.systemd}/bin/systemctl --user --wait start hyprland-session.target";
+          command = "${pkgs.hyprland}/bin/Hyprland";
+        in {
+          initial_session = {
+            inherit command;
+            user = user.name;
+          };
+
+          default_session = {
+            command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd '${command}'";
+            user = "greeter";
+          };
+        };
       };
 
       libinput.enable = true;
