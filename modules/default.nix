@@ -51,10 +51,13 @@
     inherit pkgs;
   }) ++ (import (../packages + "/${pkgs.system}.nix") {
     inherit pkgs;
-  });
+  }) ++ [pkgs.seahorse];
 
   programs.man = {
     enable = true;
     generateCaches = false;
   };
+
+  services.gnome-keyring.enable = true;
+  services.gnome-keyring.components = ["pkcs11" "secrets" "ssh"];
 }
