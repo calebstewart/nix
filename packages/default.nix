@@ -6,8 +6,9 @@
   zip
   unzip
   file
-  awscli
+  awscli2
   aws-vault
+  ssm-session-manager-plugin
   audacity
   nix-output-monitor
   gcc
