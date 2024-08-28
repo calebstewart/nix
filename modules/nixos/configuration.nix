@@ -5,6 +5,7 @@
 { pkgs, user, inputs, system, ... }:
 let
   probe-rs-rules = pkgs.writeTextDir "etc/udev/rules.d/69-probe-rs.rules" (builtins.readFile ./69-probe-rs.rules);
+  zsa-rules = pkgs.writeTextDir "etc/udev/rules.d/50-zsa.rules" (builtins.readFile ./50-zsa.rules);
 in {
   # DO NOT MODIFY
   system.stateVersion = "23.11";
@@ -36,7 +37,7 @@ in {
     settings.experimental-features = ["nix-command" "flakes"];
   };
 
-  services.udev.packages = [probe-rs-rules];
+  services.udev.packages = [probe-rs-rules zsa-rules];
 
   services.udev.extraRules = ''
     ATTRS{idVendor}=="239a", ENV{ID_MM_DEVICE_IGNORE}="1"
@@ -60,5 +61,8 @@ in {
     man.enable = true;
     man.generateCaches = true;
   };
+
+  services.gnome.gnome-keyring.enable = true;
+  services.dbus.packages = [pkgs.gcr];
 }
 
