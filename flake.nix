@@ -7,14 +7,11 @@
     nix-colors.url = "github:misterio77/nix-colors";
     nur.url = "github:nix-community/NUR";
     nix-std.url = "github:chessai/nix-std";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixvim.url = "github:nix-community/nixvim";
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-hardware = {
-      url = "github:nixos/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -22,13 +19,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # FIXME: Replace this after this PR is in nixos-unstable: https://nixpk.gs/pr-tracker.html?pr=319882
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
-
 
     # FIXME: Remove this when this PR is merged: https://github.com/viperML/nh/pull/92
     nh-extra-privesc.url = "github:henriquekirchheck/nh/b6513832b39521e60349f2b2ab83cc8d5d28194e";
