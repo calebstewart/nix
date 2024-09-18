@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ...}:
+{ inputs, pkgs, lib, config, ...}:
 
 {
   home.stateVersion = "23.11"; # FIXME
@@ -49,6 +49,7 @@
 
   home.packages = (import ../packages/default.nix {
     inherit pkgs;
+    inherit lib;
   }) ++ (import (../packages + "/${pkgs.system}.nix") {
     inherit pkgs;
   }) ++ [pkgs.seahorse];

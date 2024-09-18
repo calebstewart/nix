@@ -80,13 +80,18 @@ in {
         lualine.enable = true;
         lsp-format.enable = true;
         oil.enable = true;
-        treesitter.enable = true;
         cmp-nvim-lsp-signature-help.enable = true;
         transparent.enable = true;
         noice.enable = true;
         neogit.enable = true;
         vim-bbye.enable = true;
         illuminate.enable = true;
+      };
+
+      plugins.treesitter = {
+        enable = true;
+
+        # languageRegister.hcl = ["hcl" "tf" "terraform"];
       };
 
       plugins.markdown-preview = {
@@ -139,6 +144,7 @@ in {
           clangd.enable = true;
           rust-analyzer.enable = true;
           terraformls.enable = true;
+          jdt-language-server.enable = true;
         };
 
         keymaps.extra = [
@@ -248,6 +254,8 @@ in {
             "<space>" = "none";
           };
         };
+
+        filesystem.filteredItems.alwaysShow = [".github" ".circleci"];
       };
 
       plugins.which-key = {
