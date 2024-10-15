@@ -106,7 +106,7 @@ in {
 
       plugins.trouble = {
         enable = true;
-        icons = true;
+        # icons = true;
       };
 
       # Fancy notifications within neovim

@@ -12,6 +12,7 @@
   devenv
   btop
   gimp
+  terraform
 
   (retroarch.override {
     cores = with libretro; [
