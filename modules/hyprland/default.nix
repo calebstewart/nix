@@ -159,6 +159,11 @@ in {
           no_gaps_when_only = 1;
         };
 
+        layerrule = [
+          # Disable background animations
+          "noanim,hyprpaper"
+        ];
+
         windowrulev2 = [
           "suppressevent maximize, class:.*"
           "idleinhibit fullscreen, class:.*"
