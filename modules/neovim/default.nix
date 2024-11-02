@@ -145,6 +145,7 @@ in {
           rust-analyzer.enable = true;
           terraformls.enable = true;
           jdt-language-server.enable = true;
+          omnisharp.enable = true;
         };
 
         keymaps.extra = [
