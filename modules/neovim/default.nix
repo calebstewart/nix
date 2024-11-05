@@ -145,7 +145,21 @@ in {
           rust-analyzer.enable = true;
           terraformls.enable = true;
           jdt-language-server.enable = true;
-          omnisharp.enable = true;
+
+          omnisharp = {
+            enable = true;
+
+            extraOptions = {
+              settings = {
+                FormattingOptions = {
+                  newLine = "\n";
+                  useTabs = false;
+                  tabSize = 2;
+                  indentationSize = 2;
+                };
+              };
+            };
+          };
         };
 
         keymaps.extra = [
