@@ -66,12 +66,14 @@ in
       keymapp
 
       # ghidra
-      (cutter.withPlugins (ps: with ps; [
-        jsdec
-        rz-ghidra
-        sigdb
-      ]))
-      jd-gui
+      # (cutter.withPlugins (ps: with ps; [
+      #   jsdec
+      #   rz-ghidra
+      #   sigdb
+      # ]))
+      # (jd-gui.override (old: {
+      #   gradle_6 = pkgs.gradle;
+      # }))
       # (jadx.overrideAttrs (old: {
       #   nativeBuildInputs = [
       #     gradle
