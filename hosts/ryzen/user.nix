@@ -64,6 +64,7 @@ in
     home.packages = with pkgs; [
       # Install ZSA Keymapp for programmer my Moonlander keyboard
       keymapp
+      packer
 
       # ghidra
       # (cutter.withPlugins (ps: with ps; [

@@ -7,6 +7,9 @@ in {
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
+      ignores = [
+        ".envrc"
+      ];
 
       userName = user.fullName;
       userEmail = user.email;

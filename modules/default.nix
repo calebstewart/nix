@@ -61,4 +61,10 @@
 
   services.gnome-keyring.enable = true;
   services.gnome-keyring.components = ["pkcs11" "secrets" "ssh"];
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 }

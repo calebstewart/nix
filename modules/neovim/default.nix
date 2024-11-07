@@ -13,6 +13,10 @@ in {
     programs.nixvim = {
       enable = true;
       defaultEditor = true;
+
+      extraPlugins = with pkgs.vimPlugins; [
+        vim-hcl
+      ];
       
       globals = {
         # The global leader is " ", which behaves similarly to emacs shortcuts
@@ -143,8 +147,11 @@ in {
           pyright.enable = true;
           clangd.enable = true;
           rust-analyzer.enable = true;
-          terraformls.enable = true;
           jdt-language-server.enable = true;
+
+          terraformls = {
+            enable = true;
+          };
 
           omnisharp = {
             enable = true;
