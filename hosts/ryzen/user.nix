@@ -1,4 +1,4 @@
-{ user, pkgs, ...}:
+{ user, pkgs, config, ...}:
 let
   # Scaling factor to use for rendering for all monitors
   scaling_factor = 1.25;
@@ -25,13 +25,17 @@ in
     firefox.enable = true;
     alacritty.enable = true;
     eww.enable = false;
-    waybar.enable = true;
     dunst.enable = false;
     swaync.enable = true;
     wofi.enable = false;
     rofi.enable = true;
     obs.enable = true;
     pipewire.enable = true;
+
+    waybar = {
+      enable = true;
+      includePaths = ["${config.xdg.configHome}/waybar/embermug.json"];
+    };
 
     hyprland = {
       enable = true;
@@ -61,6 +65,23 @@ in
   };
 
   config = {
+    # Enable support for my ember mug monitoring service
+    programs.embermug = {
+      enable              = true;
+      systemd.enable = true;
+      systemd.socket-activation = true;
+      waybar.enable = true;
+
+      settings = {
+        socket-path = "/tmp/embermug.sock";
+
+        service = {
+          device-address = "D2:45:BF:D1:6C:E8";
+          enable-notifications = true;
+        };
+      };
+    };
+
     home.packages = with pkgs; [
       # Install ZSA Keymapp for programmer my Moonlander keyboard
       keymapp

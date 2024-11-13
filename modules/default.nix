@@ -6,6 +6,7 @@
   imports = [
     # Setup home-manager modules
     inputs.nix-colors.homeManagerModules.default
+    inputs.embermug.homeModules.default
 
     # Graphical User Interface (GUI)
     ./firefox

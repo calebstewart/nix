@@ -2,7 +2,13 @@
 let
   cfg = config.modules.waybar;
 in {
-  options.modules.waybar = { enable = lib.mkEnableOption "waybar"; };
+  options.modules.waybar = {
+    enable = lib.mkEnableOption "waybar";
+    includePaths = lib.mkOption {
+      default = [];
+      type = lib.types.listOf lib.types.str;
+    };
+  };
   config = lib.mkIf cfg.enable {
     programs.waybar = {
       enable = true;
@@ -18,6 +24,7 @@ in {
         margin-right = 0;
         spacing = 0;
         start_hidden = false;
+        include = cfg.includePaths;
 
         clock.format = "{:%H:%M}";
         clock.format-alt = "{:%Y-%m-%d}";
@@ -49,6 +56,7 @@ in {
         ];
 
         modules-right = [
+          "custom/embermug"
           "pulseaudio"
           "bluetooth"
           "battery"
@@ -56,6 +64,14 @@ in {
           "network"
           "clock"
         ];
+
+        # "custom/ember" = {
+        #   exec = config.services.embermug.waybarClientCommand;
+        #   format = "{icon}  {}";
+        #   format-icons = "";
+        #   return-type = "json";
+        #   restart-interval = 1;
+        # };
 
         "group/hardware" = {
           orientation = "horizontal";

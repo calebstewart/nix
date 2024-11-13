@@ -43,6 +43,12 @@
       url = "github:calebstewart/rofi-libvirt-mode?ref=d8d4387410606570f6cc5853cad4566dc3738834";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    embermug = {
+      url = "github:calebstewart/go-embermug";
+      # url = "path:/home/caleb/git/go-embermug";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, home-manager, nix-std, ...}@inputs:

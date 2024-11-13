@@ -9,6 +9,7 @@ in {
       enable = true;
       ignores = [
         ".envrc"
+        ".direnv"
       ];
 
       userName = user.fullName;
@@ -18,6 +19,7 @@ in {
         init.defaultBranch = "main";
         push.autoSetupRemote = true;
         gpg.format = "ssh";
+        user.signingkey = "~/.ssh/id_ed25519.pub";
 
         # url = {
         #   "git@github.com:" = {

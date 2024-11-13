@@ -23,6 +23,9 @@
     font-family: JetBrainsMono, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     border: none;
     border-radius: 0px;
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
 }
 
 window#waybar {
@@ -84,7 +87,8 @@ window#waybar {
 
 tooltip {
     border-radius: 10px;
-    background-color: @backgroundlight;
+    border-color: shade(@theme_base_color, 0.75);
+    background-color: alpha(@theme_base_color,0.95);
     opacity:0.8;
     padding:20px;
     margin:0px;
