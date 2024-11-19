@@ -125,10 +125,13 @@ in {
 
         decoration = {
           rounding = 2;
-          drop_shadow = true;
-          shadow_range = 4;
-          shadow_render_power = 3;
-          "col.shadow" = "rgba(${config.colorScheme.palette.base02}ee)";
+
+          shadow = {
+            enabled = true;
+            range = 4;
+            render_power = 3;
+            color = "rgba(${config.colorScheme.palette.base02}ee)";
+          };
 
           blur = {
             enabled = true;
@@ -156,12 +159,18 @@ in {
         dwindle = {
           pseudotile = true;
           preserve_split = true;
-          no_gaps_when_only = 1;
+          # no_gaps_when_only = 1;
         };
 
         layerrule = [
           # Disable background animations
           "noanim,hyprpaper"
+        ];
+
+        workspace = [
+          # Smart gaps (remove gaps when only tiled window)
+          "w[tv1], gapsout:0, gapsin:0"
+          "f[1], gapsout:0, gapsin:0"
         ];
 
         windowrulev2 = [
@@ -199,6 +208,12 @@ in {
 
           "workspace special:shell,class:^(${floating_term_class}:shell)$"
           "workspace special:python,class:^(${floating_term_class}:python)$"
+
+          # Remove borders when only tiled window (part of "smart gaps")
+          "bordersize 0, floating:0, onworkspace:w[tv1]"
+          "rounding 0, floating:0, onworkspace:w[tv1]"
+          "bordersize 0, floating:0, onworkspace:f[1]"
+          "rounding 0, floating:0, onworkspace:f[1]"
         ];
 
         bind = [
