@@ -25,6 +25,7 @@ in {
     ./docker
     ./looking-glass
     ./nh
+    ./nordvpn
   ];
 
   # Allow installation of non-free packages

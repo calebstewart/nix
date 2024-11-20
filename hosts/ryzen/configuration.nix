@@ -94,5 +94,10 @@ in {
       # localNetworkGameTransfers.openFirewall = true;
     };
 
+    services.nordvpn = {
+      enable = true;
+      users = [user.name];
+    };
+
   };
 }
