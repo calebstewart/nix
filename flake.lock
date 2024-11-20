@@ -260,11 +260,11 @@
     "hyprsplit": {
       "flake": false,
       "locked": {
-        "lastModified": 1731260721,
-        "narHash": "sha256-otDIivy4sMZBN2t9eHVI5PaFacg2Je4U9gBPPcH/Vpo=",
+        "lastModified": 1732041261,
+        "narHash": "sha256-jTvfpYrtaLEKMR3N89hUjIgh18GxnHsEUg1+w8gk4hg=",
         "owner": "shezdy",
         "repo": "hyprsplit",
-        "rev": "1ac3dc76d7bd9a5dcffa0f6fb75d35258c519454",
+        "rev": "09a1f2b89f61b32b3d7a58e8d1eae93653009859",
         "type": "github"
       },
       "original": {
@@ -486,11 +486,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1732014462,
-        "narHash": "sha256-6WPABLqswdWdSLd5YSbGlKaMhpSIXODasz3etxuC+K0=",
+        "lastModified": 1732035679,
+        "narHash": "sha256-J03v1XnxvsrrvHmzKVBZiwik8678IXfkH1/ZR954ujk=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "c674f10d189fcbcf961f3c19479ac44d7d2d6e50",
+        "rev": "929bb0cd1cffb9917ab14be9cdb3f27efd6f505f",
         "type": "github"
       },
       "original": {
@@ -501,11 +501,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1732025389,
-        "narHash": "sha256-UMZbNhr9AtGMlV6Sgj2CIb+R3xFTc8sXKcUtAzWKJUw=",
+        "lastModified": 1732068686,
+        "narHash": "sha256-t4odoZ4MWl7YCdSJenncbKG3Xad6PUJTzNb4XgZdOrE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "5128049be5e7a1cc3cad4b2b7bbcefc08af20eef",
+        "rev": "d0b443a475148595fac59110e19410f9a3f2ae28",
         "type": "github"
       },
       "original": {
