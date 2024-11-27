@@ -148,6 +148,7 @@ in {
           clangd.enable = true;
           rust-analyzer.enable = true;
           jdt-language-server.enable = true;
+          ts_ls.enable = true;
 
           terraformls = {
             enable = true;

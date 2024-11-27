@@ -41,13 +41,14 @@ in {
         jetbrains-mono
         roboto
         openmoji-color
+        font-awesome
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       ];
 
       fontconfig = {
         hinting.autohint = true;
         defaultFonts = {
-          emoji = ["OpenMoji Color"];
+          emoji = ["Noto Color Emoji"];
         };
       };
     };

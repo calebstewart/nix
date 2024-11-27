@@ -1,5 +1,48 @@
 {
   "nodes": {
+    "ags": {
+      "inputs": {
+        "astal": "astal",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1732307740,
+        "narHash": "sha256-ZDsYdZOtg5qkK/wfLLB83B3SI+fE32S+/6Ey0ggHODM=",
+        "owner": "aylur",
+        "repo": "ags",
+        "rev": "81159966eb8b39b66c3efc133982fd76920c9605",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aylur",
+        "repo": "ags",
+        "type": "github"
+      }
+    },
+    "ags_2": {
+      "inputs": {
+        "astal": "astal_2",
+        "nixpkgs": [
+          "stew-shell",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731966249,
+        "narHash": "sha256-9hDeMy6S2q1wWBFGiJic5yUms19zW8LhAX9MlCtuN6k=",
+        "owner": "aylur",
+        "repo": "ags",
+        "rev": "12e0bfefd2051c43d7450123fcb095f655b891e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aylur",
+        "repo": "ags",
+        "type": "github"
+      }
+    },
     "any-nix-shell": {
       "flake": false,
       "locked": {
@@ -14,6 +57,49 @@
         "owner": "calebstewart",
         "ref": "add-nix-develop-support",
         "repo": "any-nix-shell",
+        "type": "github"
+      }
+    },
+    "astal": {
+      "inputs": {
+        "nixpkgs": [
+          "ags",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731952585,
+        "narHash": "sha256-Sh1E7sJd8JJM3PCU1ZOei/QWz97OLCENIi2rTRoaniw=",
+        "owner": "aylur",
+        "repo": "astal",
+        "rev": "664c7a4ddfcf48c6e8accd3c33bb94424b0e8609",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aylur",
+        "repo": "astal",
+        "type": "github"
+      }
+    },
+    "astal_2": {
+      "inputs": {
+        "nixpkgs": [
+          "stew-shell",
+          "ags",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731952585,
+        "narHash": "sha256-Sh1E7sJd8JJM3PCU1ZOei/QWz97OLCENIi2rTRoaniw=",
+        "owner": "aylur",
+        "repo": "astal",
+        "rev": "664c7a4ddfcf48c6e8accd3c33bb94424b0e8609",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aylur",
+        "repo": "astal",
         "type": "github"
       }
     },
@@ -561,6 +647,7 @@
     },
     "root": {
       "inputs": {
+        "ags": "ags",
         "any-nix-shell": "any-nix-shell",
         "embermug": "embermug",
         "home-manager": "home-manager",
@@ -574,7 +661,29 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "rofi-libvirt-mode": "rofi-libvirt-mode",
+        "stew-shell": "stew-shell",
         "vfio-hooks": "vfio-hooks"
+      }
+    },
+    "stew-shell": {
+      "inputs": {
+        "ags": "ags_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1732749828,
+        "narHash": "sha256-tKmYjnQdQqTN2hFyUrfHGzJnM2YQ05BwvZU7IXhEvtk=",
+        "owner": "calebstewart",
+        "repo": "stew-shell",
+        "rev": "da442737ee73aa8b8e77e5e641bf65186e1583bd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "calebstewart",
+        "repo": "stew-shell",
+        "type": "github"
       }
     },
     "systems": {

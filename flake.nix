@@ -49,6 +49,16 @@
       # url = "path:/home/caleb/git/go-embermug";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ags = {
+      url = "github:aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    stew-shell = {
+      url = "github:calebstewart/stew-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, home-manager, nix-std, ...}@inputs:

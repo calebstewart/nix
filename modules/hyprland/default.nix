@@ -7,7 +7,12 @@ let
   floating_term_class = "floating-term";
 
   rofi_theme = "$HOME/.config/rofi/launcher.rasi";
-  menu_command = "rofi -show drun -theme ${rofi_theme}";
+  # menu_command = "rofi -show drun -theme ${rofi_theme}";
+  menu_command = lib.escapeShellArgs [
+    (lib.getExe inputs.ags.packages.${pkgs.system}.default)
+    "request"
+    "toggle-launcher"
+  ];
   libvirt_menu = "rofi -show libvirt -theme ${rofi_theme} -modes libvirt:${inputs.rofi-libvirt-mode.packages.${pkgs.system}.default}/bin/rofi-libvirt-mode";
   screenshot_command = "grimblast copy area --notify";
   printscreen_command = "grimblast copy output --notify";
@@ -165,6 +170,7 @@ in {
         layerrule = [
           # Disable background animations
           "noanim,hyprpaper"
+          "animation slide top,SystemMenu"
         ];
 
         workspace = [
@@ -401,6 +407,19 @@ in {
       };
     };
 
+    systemd.user.services.stew-shell = {
+      Unit = {
+        Description = "Desktop Shell User Interface";
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = lib.getExe inputs.stew-shell.packages.${pkgs.system}.default;
+      };
+
+      Install.WantedBy = ["hyprland-session.target"];
+    };
+
     systemd.user.services.autologin-locker = {
       Unit = {
         Description = "Locks the session during initial bootup after auto-login from greetd";
@@ -469,6 +488,11 @@ in {
       cursorTheme = {
         name = "catppuccin-mocha-dark-cursors";
         package = pkgs.catppuccin-cursors.mochaDark;
+        # package = pkgs.catppuccin-cursors.mochaDark.overrideAttrs (old: {
+        #   preBuild = ''
+        #     ${lib.getExe pkgs.gnused} -i 's/NOMINAL_SIZE=24/NOMINAL_SIZE=32/g' ./scripts/build-xcursor-plasmasvg
+        #   '';
+        # });
       };
 
       theme = let

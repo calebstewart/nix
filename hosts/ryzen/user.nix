@@ -26,14 +26,14 @@ in
     alacritty.enable = true;
     eww.enable = false;
     dunst.enable = false;
-    swaync.enable = true;
+    swaync.enable = false;
     wofi.enable = false;
     rofi.enable = true;
     obs.enable = true;
     pipewire.enable = true;
 
     waybar = {
-      enable = true;
+      enable = false;
       includePaths = ["${config.xdg.configHome}/waybar/embermug.json"];
     };
 
