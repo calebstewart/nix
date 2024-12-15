@@ -14,12 +14,6 @@
   gimp
   terraform
 
-  (retroarch.override {
-    cores = with libretro; [
-      mgba
-    ];
-  })
-
   (writeShellScriptBin "run0" ''
     exec ${systemd}/bin/run0 --setenv=LOCALE_ARCHIVE $@
   '')

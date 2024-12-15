@@ -9,9 +9,10 @@ let
   rofi_theme = "$HOME/.config/rofi/launcher.rasi";
   # menu_command = "rofi -show drun -theme ${rofi_theme}";
   menu_command = lib.escapeShellArgs [
-    (lib.getExe inputs.ags.packages.${pkgs.system}.default)
-    "request"
-    "toggle-launcher"
+    (lib.getExe inputs.stew-shell.packages.${pkgs.system}.default)
+    "popup"
+    "toggle"
+    "ApplicationLauncher"
   ];
   libvirt_menu = "rofi -show libvirt -theme ${rofi_theme} -modes libvirt:${inputs.rofi-libvirt-mode.packages.${pkgs.system}.default}/bin/rofi-libvirt-mode";
   screenshot_command = "grimblast copy area --notify";
@@ -88,7 +89,28 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        
+        # The default set of exposed environment variables is not sufficient
+        # to make Electron understand it should use Wayland instead of XWayland.
+        # This set of variables functions properly when graphical applications
+        # are opened through a SystemD user service.
+        variables = [
+          # Default value:
+          "DISPLAY"
+          "HYPRLAND_INSTANCE_SIGNATURE"
+          "WAYLAND_DISPLAY"
+          "XDG_CURRENT_DESKTOP"
+
+          # Non-standard variables:
+          "XDG_SESSION_ID"
+          "XDG_SEAT"
+          "XDG_SESSION_TYPE"
+          "XDG_BACKEND"
+          "XDG_VTNR"
+        ];
+      };
 
       plugins = with pkgs.hyprlandPlugins; [
         hyprsplit
@@ -170,7 +192,12 @@ in {
         layerrule = [
           # Disable background animations
           "noanim,hyprpaper"
+          "animation fade in,PopupCloser"
+          "animation slide top,LockerShade"
           "animation slide top,SystemMenu"
+          "animation slide left,ApplicationLauncher"
+          "animation slide right,NotificationPopup"
+          "animation slide right,SettingsMenu"
         ];
 
         workspace = [
@@ -298,7 +325,11 @@ in {
         general = {
           after_sleep_cmd = "hyprctl dispatch dpms on";
           before_sleep_cmd = "loginctl lock-session";
-          lock_cmd = "pidof hyprlock || hyprlock";
+          lock_cmd = lib.escapeShellArgs [
+            (lib.getExe inputs.stew-shell.packages.${pkgs.system}.default)
+            "lock"
+          ];
+          # lock_cmd = "pidof hyprlock || hyprlock";
         };
 
         listener = [
@@ -415,6 +446,7 @@ in {
       Service = {
         Type = "simple";
         ExecStart = lib.getExe inputs.stew-shell.packages.${pkgs.system}.default;
+        Restart = "on-failure";
       };
 
       Install.WantedBy = ["hyprland-session.target"];
@@ -523,7 +555,7 @@ in {
 
     qt = {
       enable = true;
-      platformTheme = "gtk";
+      platformTheme.name = "gtk";
     };
 
     home.pointerCursor = {

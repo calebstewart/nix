@@ -93,9 +93,7 @@ in
       #   rz-ghidra
       #   sigdb
       # ]))
-      # (jd-gui.override (old: {
-      #   gradle_6 = pkgs.gradle;
-      # }))
+      bytecode-viewer
       # (jadx.overrideAttrs (old: {
       #   nativeBuildInputs = [
       #     gradle

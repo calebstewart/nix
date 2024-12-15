@@ -57,6 +57,7 @@
 
     stew-shell = {
       url = "github:calebstewart/stew-shell";
+      # url = "path:/home/caleb/git/stew-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

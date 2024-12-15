@@ -31,6 +31,12 @@ in {
   # Allow installation of non-free packages
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-core-combined"
+    "dotnet-sdk-6.0.428"
+    "dotnet-sdk-wrapped-6.0.428"
+  ];
+
   # Setup global nixos settings (mainly, enable flakes)
   nix = {
     settings.trusted-users = ["root" user.name];

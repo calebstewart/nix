@@ -38,11 +38,10 @@ in {
 
     fonts = {
       packages = with pkgs; [
-        jetbrains-mono
+        nerd-fonts.jetbrains-mono
         roboto
         openmoji-color
         font-awesome
-        (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       ];
 
       fontconfig = {
@@ -76,12 +75,15 @@ in {
       MOZ_ENABLE_WAYLAND = "1";
     };
 
-    hardware.opengl = {
+    hardware.graphics = {
       enable = true;
+      enable32Bit = true;
 
       extraPackages = with pkgs; [
         vaapiVdpau
         libvdpau-va-gl
+        mesa.opencl
+        rocmPackages.clr.icd
       ];
     };
 

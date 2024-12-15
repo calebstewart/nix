@@ -90,11 +90,12 @@ in {
         neogit.enable = true;
         vim-bbye.enable = true;
         illuminate.enable = true;
+        web-devicons.enable = true;
       };
 
       plugins.treesitter = {
         enable = true;
-
+        settings.highlight.enable = true;
         # languageRegister.hcl = ["hcl" "tf" "terraform"];
       };
 
@@ -102,8 +103,8 @@ in {
         enable = true;
 
         settings = {
-          auto_start = false;
-          auto_close = true;
+          auto_start = 0;
+          auto_close = 1;
           browserfunc = "OpenBrowser";
         };
       };
@@ -136,19 +137,34 @@ in {
         ui.devicon = true;
       };
 
+      plugins.none-ls = {
+        enable = true;
+        enableLspFormat = true;
+
+        sources.formatting.black.enable = true;
+        sources.formatting.isort.enable = true;
+      };
+
       # Setup Language Servers
       plugins.lsp = {
         enable = true;
 
         servers = {
-          lua-ls.enable = true;
+          lua_ls.enable = true;
           gopls.enable = true;
           nixd.enable = true;
           pyright.enable = true;
           clangd.enable = true;
-          rust-analyzer.enable = true;
-          jdt-language-server.enable = true;
+          jdtls.enable = true;
           ts_ls.enable = true;
+          vala_ls.enable = true;
+          mesonlsp.enable = true;
+
+          rust_analyzer = {
+            enable = true;
+            installCargo = false;
+            installRustc = false;
+          };
 
           terraformls = {
             enable = true;
@@ -247,12 +263,6 @@ in {
         ];
       };
 
-      # Setup none-ls for LSP features from external tools
-      plugins.none-ls = {
-        enable = true;
-        enableLspFormat = true;
-      };
-
       # Install telescope because it's pretty :)
       plugins.telescope = {
         enable = true;
@@ -281,10 +291,19 @@ in {
         filesystem.filteredItems.alwaysShow = [".github" ".circleci"];
       };
 
-      plugins.which-key = {
+      plugins.which-key = 
+      let
+        # Which Key changed, and now the configuration in nixvim is fucking gross, so
+        # we use this little wrapper to translate the old style registrations to the new
+        # style spec values.
+        translateRegistrations = registrations: lib.foldlAttrs (acc: key: value: acc ++ [{
+          group = value;
+          __unkeyed-1 = key;
+        }]) [] registrations;
+      in {
         enable = true;
 
-        registrations = {
+        settings.spec = translateRegistrations {
           "<leader>w" = "Windows...";
           "<leader>b" = "Buffers...";
           "<leader>o" = "Open Tools...";

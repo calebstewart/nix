@@ -44,6 +44,7 @@
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
   home.sessionVariables = {
+    NIXOS_OZONE_WL="1";
     GOPRIVATE="github.com/huntresslabs";
     LIBVIRT_DEFAULT_URI="qemu:///system";
   };
