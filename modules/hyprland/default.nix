@@ -233,11 +233,11 @@ in {
           "animation slide top,class:^(${floating_term_class})"
 
           # Make slack into a floating drop-down panel
-          "float,class:^(Slack)$"
-          "move 15% 2%,class:^(Slack)$"
-          "size 70% 75%,class:^(Slack)$"
-          "animation slide top,class:^(Slack)$"
-          "workspace special:slack,class:^(Slack)$"
+          # "float,class:^(Slack)$"
+          # "move 15% 2%,class:^(Slack)$"
+          # "size 70% 75%,class:^(Slack)$"
+          # "animation slide top,class:^(Slack)$"
+          # "workspace special:slack,class:^(Slack)$"
 
           "workspace special:shell,class:^(${floating_term_class}:shell)$"
           "workspace special:python,class:^(${floating_term_class}:python)$"
@@ -297,7 +297,7 @@ in {
 
           "${modifier}, t, exec, ${toggleFloatTerm}/bin/toggle"
           "${modifier}, p, exec, ${togglePythonTerm}/bin/toggle"
-          "${modifier}, s, exec, ${toggleSlack}/bin/toggle"
+          # "${modifier}, s, exec, ${toggleSlack}/bin/toggle"
         ];
 
         bindm = [

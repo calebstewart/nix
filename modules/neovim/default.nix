@@ -91,6 +91,7 @@ in {
         vim-bbye.enable = true;
         illuminate.enable = true;
         web-devicons.enable = true;
+        direnv.enable = true;
       };
 
       plugins.treesitter = {

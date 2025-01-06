@@ -1,7 +1,7 @@
 { user, pkgs, config, ...}:
 let
   # Scaling factor to use for rendering for all monitors
-  scaling_factor = 1.25;
+  scaling_factor = 1;
 
   # Default resolution of my desktop monitors
   resolution = {
