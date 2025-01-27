@@ -20,10 +20,10 @@
     src = pkgs.fetchFromGitHub {
       owner = "calebstewart";
       repo = "spacectl";
-      rev = "b8904e380ab2d90f809278c24e6016dc870a9bae";
-      sha256 = "sha256-2eGPJ9/sO+cxVXgDd54IzkwIHkMtP6yGigE3GOw9IRc=";
+      rev = "9f90069553c5978f8c9215784ac5564695ea5d8d";
+      sha256 = "sha256-wIHULPcOwutzIw5oyykXjrr9mPoycTZ2JSg+w/44kOk=";
     };
 
-    vendorHash = "sha256-sx8FFNbJbObBXgC//fgX24izlRytCU9CXMHvXuAbTsU=";
+    vendorHash = "sha256-H6oIJlgqo8q+LcbmoK3vAp+lOqHWyscFH3uxMvLyT+Q=";
   })
 ]
