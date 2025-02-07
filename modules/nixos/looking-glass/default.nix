@@ -16,8 +16,11 @@ let
   # By default, we install B6 because nixpkgs provides B7 which is broken for me
   # However, we also need to apply a patch which isn't even released in B7-rc1
   # yet which enables Looking Glass to run in Wayland with fractional scaling.
-  looking-glass-client-b6 = pkgs.looking-glass-client.overrideAttrs {
+  looking-glass-client-b6 = pkgs.looking-glass-client.overrideAttrs (finalAttrs: prevAttrs: {
     version = "B6";
+
+    # See: https://github.com/NixOS/nixpkgs/issues/368827
+    nativeBuildInputs = prevAttrs.nativeBuildInputs ++ [pkgs.gcc13];
 
     src = pkgs.fetchFromGitHub {
       owner = "gnif";
@@ -27,8 +30,8 @@ let
       fetchSubmodules = true;
     };
 
-    patches = [./patches/0001-client-wayland-Let-viewporter-use-full-wl_buffer.patch];
-  };
+    patches = [];
+  });
 in {
   options.modules.looking-glass = {
     enable = lib.mkEnableOption "looking-glass";
