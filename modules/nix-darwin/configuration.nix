@@ -22,7 +22,6 @@
 
   # Enable system-wide zsh
   programs.zsh.enable = true;
-  services.sketchybar.enable = true;
 
   # Setup our users
   users.users.${user.name} = {
@@ -46,7 +45,7 @@
     packages = with pkgs; [
       jetbrains-mono
       roboto
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
     ];
   };
 }

@@ -41,15 +41,22 @@ in {
       zoxide.enable = true;
       bat.enable = true;
       eza.enable = true;
-      # gpg.enable = true;
-      # direnv.enable = true;
-
-      # System
-      # xdg.enable = true;
-      # packages.enable = true;
     };
 
     # Replace the firefox package with our custom derivation
     programs.firefox.package = firefox;
+
+    programs.ssh = {
+      enable = true;
+
+      matchBlocks = {
+        "jumpbox" = {
+          hostname = "portal-api-jumpbox.threatops.io";
+          user = "caleb.stewart";
+          identityFile = "/Users/caleb/.ssh/id_ed25519";
+          dynamicForwards = [{ port = 1337; }];
+        };
+      };
+    };
   };
 }

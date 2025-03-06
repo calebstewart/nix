@@ -21,6 +21,7 @@
     ./obs
     ./pipewire
     ./sketchybar
+    ./aerospace
 
     # Command Line Interface (CLI)
     ./neovim
