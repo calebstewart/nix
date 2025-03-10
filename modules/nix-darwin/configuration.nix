@@ -48,5 +48,9 @@
       nerd-fonts.jetbrains-mono
     ];
   };
+
+  system.defaults.NSGlobalDomain = {
+    "com.apple.swipescrolldirection" = true;
+  };
 }
 

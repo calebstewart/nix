@@ -31,6 +31,7 @@ in {
       # Graphical User Interface (GUI)
       firefox.enable = true;
       alacritty.enable = true;
+      aerospace.enable = true;
       sketchybar.enable = false;
 
       # Command Line Interface (CLI)
@@ -42,6 +43,11 @@ in {
       bat.enable = true;
       eza.enable = true;
     };
+
+    home.packages = with pkgs; [
+      discord
+      github-cli
+    ];
 
     # Replace the firefox package with our custom derivation
     programs.firefox.package = firefox;

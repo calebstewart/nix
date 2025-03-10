@@ -2,7 +2,7 @@
 let
   # nikstur-pkgs = inputs.nikstur-nixpkgs.legacyPackages.${system};
 in [
-  inputs.nur.overlay
+  inputs.nur.overlays.default
   # (final: prev: with nikstur-pkgs; {
   #   systemd = systemd;
   # })

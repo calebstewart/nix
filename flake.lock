@@ -404,6 +404,27 @@
         "type": "github"
       }
     },
+    "morlana": {
+      "inputs": {
+        "nix-filter": "nix-filter",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1737549666,
+        "narHash": "sha256-7DCIQfCWefZEf4vOfWpLvK2gfYABOT8lAZ6UX3qnfRE=",
+        "owner": "ryanccn",
+        "repo": "morlana",
+        "rev": "239b48c1771309c4f051809ab338f89145f04620",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryanccn",
+        "repo": "morlana",
+        "type": "github"
+      }
+    },
     "nh-extra-privesc": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -480,6 +501,21 @@
       "original": {
         "owner": "lnl7",
         "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "nix-filter": {
+      "locked": {
+        "lastModified": 1731533336,
+        "narHash": "sha256-oRam5PS1vcrr5UPgALW0eo1m/5/pls27Z/pabHNy2Ms=",
+        "owner": "numtide",
+        "repo": "nix-filter",
+        "rev": "f7653272fd234696ae94229839a99b73c9ab7de0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nix-filter",
         "type": "github"
       }
     },
@@ -690,6 +726,7 @@
         "embermug": "embermug",
         "home-manager": "home-manager",
         "hyprsplit": "hyprsplit",
+        "morlana": "morlana",
         "nh-extra-privesc": "nh-extra-privesc",
         "nix-colors": "nix-colors",
         "nix-darwin": "nix-darwin",

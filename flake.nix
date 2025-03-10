@@ -60,6 +60,11 @@
       # url = "path:/home/caleb/git/stew-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    morlana = {
+      url = "github:ryanccn/morlana";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, home-manager, nix-std, ...}@inputs:
@@ -138,10 +143,10 @@
       modules = [
         {
           networking.hostName = hostname;
-          nixpkgs.overlays = import ./overlays {
+          nixpkgs.overlays = (import ./overlays {
             inherit inputs;
             inherit system;
-          };
+          }) ++ [inputs.morlana.overlays.default];
         }
         ./modules/nix-darwin/configuration.nix
         (./. + "/hosts/${hostname}/configuration.nix")
