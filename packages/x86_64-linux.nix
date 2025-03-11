@@ -4,7 +4,6 @@
   vesktop
   remmina
   wireguard-tools
-  signal-desktop
   pv
   linux-manual
   man-pages

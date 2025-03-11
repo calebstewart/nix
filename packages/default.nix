@@ -12,6 +12,7 @@
   audacity
   nix-output-monitor
   gcc
+  signal-desktop
 
   (pkgs.buildGoModule {
     pname = "spacectl";
