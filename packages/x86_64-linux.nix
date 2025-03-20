@@ -1,4 +1,6 @@
 {pkgs, ...}: with pkgs; [
+  slack
+  zoom-us
   neofetch
   pw-volume
   vesktop

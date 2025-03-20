@@ -7,14 +7,13 @@
   # DO NOT MODIFY
   system.stateVersion = 4;
 
-  services.nix-daemon.enable = true;
-
   # Allow installation of non-free packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # Setup global nixos settings (mainly, enable flakes)
   nix = {
+    enable = true;
     settings.auto-optimise-store = false;
     settings.experimental-features = ["nix-command" "flakes"];
     settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
@@ -39,7 +38,7 @@
     tart
   ];
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   fonts = {
     packages = with pkgs; [
