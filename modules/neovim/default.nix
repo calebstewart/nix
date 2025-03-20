@@ -3,6 +3,35 @@ let
   cfg = config.modules.neovim;
   mkIf = lib.mkIf;
   mkEnableOption = lib.mkEnableOption;
+
+  gh-actions-lsp = pkgs.buildNpmPackage rec {
+    pname = "gh-actions-language-server";
+    version = "0.1.0";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "lttb";
+      repo = pname;
+      rev = "0287d3081d7b74fef88824ca3bd6e9a44323a54d";
+      hash = "sha256-ZWO5G33FXGO57Zca5B5i8zaE8eFbBCrEtmwwR3m1Px4=";
+    };
+
+    postPatch = ''
+      ln -s ${./gh-actions-language-server/package-lock.json} package-lock.json
+    '';
+
+    buildPhase = ''
+      ${lib.getExe pkgs.bun} ./build/node.ts
+    '';
+
+    npmDepsHash = "sha256-xPDDUGNjGzaxyzppCzV4KSqCX5tp7e09RLhSIUA6+7c=";
+    npmBuildScript = "build:node";
+
+    meta = {
+      description = "GitHub Actions Language Server";
+      homepage = "https://github.com/ittb/gh-actions-language-server";
+      license = lib.licenses.mit;
+    };
+  };
 in {
   options.modules.neovim = {enable = mkEnableOption "neovim";};
 
@@ -117,7 +146,7 @@ in {
 
       # Fancy notifications within neovim
       plugins.notify = {
-        enable = true;
+        enable = false;
 
         # NOTE: british spelling :sob:
         backgroundColour = "#${config.colorScheme.palette.base01}";
@@ -143,7 +172,10 @@ in {
         enableLspFormat = true;
 
         sources.formatting.black.enable = true;
+        sources.formatting.black.package = null;
+
         sources.formatting.isort.enable = true;
+        sources.formatting.isort.package = null;
       };
 
       # Setup Language Servers
@@ -160,6 +192,11 @@ in {
           ts_ls.enable = true;
           vala_ls.enable = true;
           mesonlsp.enable = true;
+
+          gh_actions_ls = {
+            enable = true;
+            package = gh-actions-lsp;
+          };
 
           rust_analyzer = {
             enable = true;
