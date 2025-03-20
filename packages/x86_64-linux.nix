@@ -1,10 +1,11 @@
 {pkgs, ...}: with pkgs; [
+  slack
+  zoom-us
   neofetch
   pw-volume
   vesktop
   remmina
   wireguard-tools
-  signal-desktop
   pv
   linux-manual
   man-pages

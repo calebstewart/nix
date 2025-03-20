@@ -149,7 +149,7 @@ in {
         enable = false;
 
         # NOTE: british spelling :sob:
-        backgroundColour = "#${config.colorScheme.palette.base01}";
+        settings.background_colour = "#${config.colorScheme.palette.base01}";
       };
 
       # Toggle-able terminal emulators within Neovim!

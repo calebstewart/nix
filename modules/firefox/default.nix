@@ -18,7 +18,7 @@ in {
           "ui.systemUsesDarkTheme" = 1;
         };
 
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
           lastpass-password-manager
           ublock-origin
           cookie-quick-manager

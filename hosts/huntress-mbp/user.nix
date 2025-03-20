@@ -31,7 +31,8 @@ in {
       # Graphical User Interface (GUI)
       firefox.enable = true;
       alacritty.enable = true;
-      sketchybar.enable = true;
+      aerospace.enable = true;
+      sketchybar.enable = false;
 
       # Command Line Interface (CLI)
       neovim.enable = true;
@@ -41,15 +42,27 @@ in {
       zoxide.enable = true;
       bat.enable = true;
       eza.enable = true;
-      # gpg.enable = true;
-      # direnv.enable = true;
-
-      # System
-      # xdg.enable = true;
-      # packages.enable = true;
     };
+
+    home.packages = with pkgs; [
+      discord
+      github-cli
+    ];
 
     # Replace the firefox package with our custom derivation
     programs.firefox.package = firefox;
+
+    programs.ssh = {
+      enable = true;
+
+      matchBlocks = {
+        "jumpbox" = {
+          hostname = "portal-api-jumpbox.threatops.io";
+          user = "caleb.stewart";
+          identityFile = "/Users/caleb/.ssh/id_ed25519";
+          dynamicForwards = [{ port = 1337; }];
+        };
+      };
+    };
   };
 }

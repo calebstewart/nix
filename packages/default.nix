@@ -1,7 +1,7 @@
 # Generic packages for any system type
 {pkgs, lib, ...}: with pkgs; [
-  slack
-  zoom-us
+  # slack
+  # zoom-us
   spotify
   zip
   unzip
@@ -12,6 +12,7 @@
   audacity
   nix-output-monitor
   gcc
+  signal-desktop
 
   (pkgs.buildGoModule {
     pname = "spacectl";

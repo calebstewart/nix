@@ -21,6 +21,7 @@ in {
         gpg.format = "ssh";
         user.signingkey = "~/.ssh/id_ed25519.pub";
         commit.gpgsign = true;
+        pull.rebase = false;
 
         url = {
           "git@github.com:" = {
