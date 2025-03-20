@@ -5,7 +5,7 @@ in {
   options.modules.time = {
     enable = lib.mkEnableOption "time";
     zone = lib.mkOption {
-      default = "America/New_York";
+      default = "America/Chicago";
     };
   };
 
