@@ -75,6 +75,8 @@
 
     stdlib = ''
         layout_poetry() {
+          POETRY_DIR="''${POETRY_DIR:-.}"
+
           # Verify we have a project
           PYPROJECT_TOML="''${PYPROJECT_TOML:-pyproject.toml}"
           if [[ ! -f "$PYPROJECT_TOML" ]]; then
@@ -83,12 +85,12 @@
           fi
 
           # Lookup the active poetry environment
-          VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
+          VIRTUAL_ENV=$(poetry -C "$POETRY_DIR" env info --path 2>/dev/null ; true)
           if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
             log_status "no poetry environment exists."
             log_status "executing \`poetry install\` to create one."
-            poetry install
-            VIRTUAL_ENV=$(poetry env info --path)
+            poetry -C "$POETRY_DIR" install
+            VIRTUAL_ENV=$(poetry -C "$POETRY_DIR" env info --path)
           fi
 
           # Activate the environment. We don't use 'poetry shell' because that
