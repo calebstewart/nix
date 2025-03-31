@@ -23,7 +23,7 @@ let
       ${lib.getExe pkgs.bun} ./build/node.ts
     '';
 
-    npmDepsHash = "sha256-xPDDUGNjGzaxyzppCzV4KSqCX5tp7e09RLhSIUA6+7c=";
+    npmDepsHash = "sha256-ChAJs3P0EKqZWid6OsQ5WZU/kQ1OUUPMUZc9/tM0VWQ=";
     npmBuildScript = "build:node";
 
     meta = {
@@ -192,6 +192,7 @@ in {
           ts_ls.enable = true;
           vala_ls.enable = true;
           mesonlsp.enable = true;
+          yamlls.enable = true;
 
           gh_actions_ls = {
             enable = true;
