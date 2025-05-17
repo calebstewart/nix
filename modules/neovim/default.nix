@@ -126,7 +126,7 @@ in {
       plugins.treesitter = {
         enable = true;
         settings.highlight.enable = true;
-        # languageRegister.hcl = ["hcl" "tf" "terraform"];
+        languageRegister.hcl = ["hcl" "tf" "terraform"];
       };
 
       plugins.markdown-preview = {
@@ -192,7 +192,7 @@ in {
           ts_ls.enable = true;
           vala_ls.enable = true;
           mesonlsp.enable = true;
-          yamlls.enable = true;
+          ansiblels.enable = true;
 
           gh_actions_ls = {
             enable = true;
@@ -240,6 +240,11 @@ in {
             key = "<leader>lr";
             action = "<CMD>LspRestart<Enter>";
             options.desc = "Restart LSP Server";
+          }
+          {
+            key = "<leader>ll";
+            action = "<CMD>Lspsaga show_line_diagnostics<Enter>";
+            options.desc = "Show Line Diagnostics";
           }
           {
             key = "<leader>gd";
@@ -327,7 +332,7 @@ in {
           };
         };
 
-        filesystem.filteredItems.alwaysShow = [".github" ".circleci"];
+        filesystem.filteredItems.alwaysShow = [".github" ".circleci" ".spacelift"];
       };
 
       plugins.which-key = 

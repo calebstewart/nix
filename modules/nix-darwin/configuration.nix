@@ -51,5 +51,8 @@
   system.defaults.NSGlobalDomain = {
     "com.apple.swipescrolldirection" = true;
   };
+
+  # Disable stupid dictionary popup
+  system.defaults.trackpad.TrackpadThreeFingerTapGesture = 0;
 }
 
